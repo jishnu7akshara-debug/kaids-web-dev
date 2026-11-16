@@ -382,20 +382,19 @@ p { max-width: 65ch; }
   .svc-filter { justify-content: flex-end; }
   .svc-grid { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: clamp(3rem, 6vw, 6rem); align-items: start; }
   .svc-panel { display: block; position: sticky; top: calc(var(--header-h) + 2rem); }
-  /* Photo enlarged to comfortably align with exactly 3 service explanations, with vibrant green highlight */
+  /* Clean architectural photo frame with simple, smooth transitions */
   .svc-stack {
     position: relative;
     width: 100%;
     max-width: 440px;
     height: 295px;
     aspect-ratio: 4 / 3;
-    border-radius: 10px;
+    border-radius: 4px;
     overflow: hidden;
-    border: 2.5px solid #16a34a;
-    box-shadow: 0 12px 30px -6px rgba(22, 163, 74, 0.28), 0 8px 12px -4px rgba(0, 0, 0, 0.08);
-    outline: 4px solid rgba(22, 163, 74, 0.16);
+    border: 1px solid var(--line);
+    box-shadow: 0 4px 20px -4px rgba(17, 24, 39, 0.08);
     background: var(--paper-warm);
-    transition: box-shadow .35s ease, border-color .35s ease;
+    transition: border-color .25s ease;
   }
   .svc-stack img {
     position: absolute;
@@ -404,10 +403,10 @@ p { max-width: 65ch; }
     height: 100%;
     object-fit: cover;
     opacity: 0;
-    transition: opacity .6s var(--ease), transform .8s var(--ease-expo);
-    transform: scale(1.04);
+    transform: none;
+    transition: opacity .32s ease-in-out;
   }
-  .svc-stack img.is-active { opacity: 1; transform: scale(1); }
+  .svc-stack img.is-active { opacity: 1; transform: none; }
   .svc-caption {
     margin-top: .85rem;
     font-weight: 560;
@@ -426,6 +425,38 @@ p { max-width: 65ch; }
     box-shadow: 0 0 8px #16a34a;
     flex-shrink: 0;
   }
+}
+
+/* Services page simple clean animations */
+.page-services {
+  animation: services-fade-in .32s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes services-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.page-services .svc-row {
+  transition: background-color .18s ease, transform .18s ease;
+  padding: 1.15rem 0.75rem;
+  border-radius: 2px;
+}
+.page-services .svc-row:hover {
+  background-color: var(--paper-warm);
+  transform: translateX(4px);
+}
+.page-services [data-reveal="mask"].is-pending,
+.page-services [data-reveal="rule"].is-pending,
+.page-services [data-reveal].is-pending {
+  clip-path: none !important;
+  opacity: 0 !important;
+  transform: translateY(8px) !important;
+  transition: opacity .3s ease, transform .3s ease !important;
 }
 
 /* Process */
