@@ -1,0 +1,185 @@
+/* KAIDS Admin Panel Stylesheet
+   Strictly follows DESIGN.md: square corners, no shadows, no gradients, 60-30-10 palette split. */
+
+@import url("../assets/css/site.css");
+
+:root {
+  --admin-sidebar-w: 16rem;
+  --admin-header-h: 3.5rem;
+}
+
+body.admin-body {
+  background: var(--concrete);
+  color: var(--ink);
+  min-height: 100vh;
+  display: flex;
+}
+
+/* Admin Sidebar */
+.admin-sidebar {
+  width: var(--admin-sidebar-w);
+  background: var(--indigo);
+  color: var(--on-ink);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  border-right: 1px solid var(--line-on-ink);
+}
+
+.admin-sidebar-brand {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--line-on-ink);
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  font-weight: 600;
+  font-size: 1.15rem;
+  letter-spacing: -.02em;
+}
+
+.admin-nav {
+  padding: 1.5rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: .25rem;
+}
+
+.admin-nav a {
+  display: flex;
+  align-items: center;
+  padding: .75rem 1.5rem;
+  color: var(--on-ink-2);
+  text-decoration: none;
+  font-weight: 540;
+  transition: background-color .15s ease, color .15s ease;
+}
+
+.admin-nav a:hover, .admin-nav a[aria-current="page"] {
+  background: var(--indigo-2);
+  color: var(--on-ink);
+  border-left: 3px solid var(--amber);
+}
+
+/* Admin Main Content */
+.admin-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.admin-header {
+  height: var(--admin-header-h);
+  background: var(--white);
+  border-bottom: 1px solid var(--line);
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.admin-header h1 {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.admin-content {
+  padding: 2rem;
+  display: grid;
+  gap: 2rem;
+}
+
+/* Tiles & Metric Cards (Square corners, no border-radius, no shadow) */
+.admin-tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: 1.25rem;
+}
+
+.admin-tile {
+  background: var(--white);
+  border: 1px solid var(--line);
+  padding: 1.5rem;
+  display: grid;
+  gap: .5rem;
+}
+
+.admin-tile-num {
+  font-size: 2.5rem;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--indigo);
+}
+
+.admin-tile[data-alert="true"] .admin-tile-num {
+  color: var(--amber-deep);
+}
+
+/* Admin Tables (Hairlines, clean textContent) */
+.admin-table-wrap {
+  background: var(--white);
+  border: 1px solid var(--line);
+  overflow-x: auto;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: .95rem;
+}
+
+.admin-table th, .admin-table td {
+  padding: .9rem 1.25rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.admin-table th {
+  background: var(--paper);
+  font-weight: 600;
+  color: var(--graphite);
+}
+
+.admin-table tr:hover td {
+  background: var(--paper);
+}
+
+/* Status Chips */
+.status-chip {
+  display: inline-block;
+  padding: .25rem .6rem;
+  font-size: .8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  background: var(--concrete);
+  color: var(--graphite);
+}
+
+.status-chip[data-status="new"] {
+  background: var(--amber-tint);
+  color: var(--amber-deep);
+}
+
+.status-chip[data-status="contacted"] {
+  background: #E0E7FF;
+  color: var(--indigo);
+}
+
+.status-chip[data-status="won"] {
+  background: #DCFCE7;
+  color: var(--ok);
+}
+
+/* Mobile Responsiveness (390px) */
+@media (max-width: 56rem) {
+  body.admin-body {
+    flex-direction: column;
+  }
+  .admin-sidebar {
+    width: 100%;
+  }
+  .admin-content {
+    padding: 1rem;
+  }
+}

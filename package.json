@@ -1,0 +1,41 @@
+{
+  "name": "kaids-website",
+  "version": "1.0.0",
+  "description": "Karnataka Industrial Documentation Services (KAIDS) Website & Backend",
+  "scripts": {
+    "start": "npx serve -l 8085 .",
+    "dev": "npx serve -l 8085 .",
+    "serve:py": "python -m http.server 8085",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "tsx src/db/migrate.ts",
+    "db:seed-owner": "tsx src/db/seed-owner.ts",
+    "lint": "tsc --noEmit",
+    "audit": "npm audit --omit=dev",
+    "security:scan": "vitest run tests/security"
+  },
+  "keywords": [
+    "kaids",
+    "kiadb",
+    "industrial-documentation"
+  ],
+  "author": "KAIDS",
+  "license": "ISC",
+  "dependencies": {
+    "@neondatabase/serverless": "0.10.4",
+    "@node-rs/argon2": "2.0.2",
+    "dotenv": "16.4.7",
+    "drizzle-orm": "0.45.4",
+    "otpauth": "9.3.6",
+    "zod": "3.24.2"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.50.1",
+    "@types/node": "22.13.4",
+    "drizzle-kit": "0.30.4",
+    "tsx": "4.19.3",
+    "typescript": "5.7.3",
+    "vitest": "3.0.5"
+  }
+}

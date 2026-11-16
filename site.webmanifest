@@ -1,0 +1,20 @@
+{
+  "name": "Karnataka Industrial Documentation Services",
+  "short_name": "KAIDS",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#F6F4EE",
+  "theme_color": "#F6F4EE",
+  "icons": [
+    {
+      "src": "assets/img/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/img/kaids-seal.png",
+      "sizes": "320x320",
+      "type": "image/png"
+    }
+  ]
+}

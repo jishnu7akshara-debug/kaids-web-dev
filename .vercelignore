@@ -1,0 +1,9 @@
+_source/
+docs/
+tests/
+playwright-report/
+test-results/
+*.test.ts
+*.spec.ts
+vitest.config.ts
+playwright.config.ts
