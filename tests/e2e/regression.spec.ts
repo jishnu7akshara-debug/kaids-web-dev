@@ -81,6 +81,28 @@ test.describe('KAIDS Public Site Regression Baseline', () => {
     await expect(countElement).toContainText('match "Harohalli"');
   });
 
+  test('Dedicated pages (about, services, process, contact) load correctly with zero errors', async ({ page }) => {
+    const pages = [
+      { url: '/about.html', titleText: 'Industrial documentation, liaison' },
+      { url: '/services.html', titleText: 'Comprehensive services' },
+      { url: '/process.html', titleText: 'How a file moves' },
+      { url: '/contact.html', titleText: 'Tell us about your plot' }
+    ];
+
+    for (const p of pages) {
+      const consoleErrors: string[] = [];
+      page.on('console', msg => { if (msg.type() === 'error') consoleErrors.push(msg.text()); });
+
+      await page.goto(p.url);
+      const heading = page.locator('h1');
+      await expect(heading).toContainText(p.titleText);
+      expect(consoleErrors).toHaveLength(0);
+
+      const hasOverflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
+      expect(hasOverflow).toBe(false);
+    }
+  });
+
   test('404 page exists and renders correctly', async ({ page }) => {
     await page.goto('/404.html');
     await expect(page.locator('h1')).toHaveText('Page not found.');
