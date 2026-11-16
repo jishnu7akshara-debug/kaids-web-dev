@@ -157,20 +157,6 @@
     var pxPerSec = Number(m.getAttribute('data-speed')) || 60;
     m.style.setProperty('--marquee-dur', (list.scrollWidth / pxPerSec).toFixed(1) + 's');
     m.classList.add('is-running');
-
-    var btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'marquee-toggle';
-    var label = m.getAttribute('data-label') || 'moving list';
-    btn.setAttribute('aria-pressed', 'false');
-    btn.setAttribute('aria-label', 'Pause ' + label);
-    btn.addEventListener('click', function () {
-      var paused = m.getAttribute('data-paused') === 'true';
-      m.setAttribute('data-paused', String(!paused));
-      btn.setAttribute('aria-pressed', String(!paused));
-      btn.setAttribute('aria-label', (paused ? 'Pause ' : 'Play ') + label);
-    });
-    m.appendChild(btn);
   });
 
   /* ---------- Services: filter by group, photo follows the group in view ---------- */
