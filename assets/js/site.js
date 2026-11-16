@@ -15,11 +15,14 @@
   /* ---------- Smooth Page Loader ---------- */
   var siteLoader = document.getElementById('site-loader');
   if (siteLoader) {
+    var dismissed = false;
     var dismissLoader = function () {
+      if (dismissed) return;
+      dismissed = true;
       siteLoader.classList.add('is-loaded');
       setTimeout(function () {
         if (siteLoader && siteLoader.parentNode) siteLoader.parentNode.removeChild(siteLoader);
-      }, 550);
+      }, 800);
     };
 
     if (document.readyState === 'complete') {
@@ -29,7 +32,7 @@
         setTimeout(dismissLoader, 350);
       });
       // Fallback timeout so loader never hangs
-      setTimeout(dismissLoader, 2500);
+      setTimeout(dismissLoader, 2800);
     }
   }
 

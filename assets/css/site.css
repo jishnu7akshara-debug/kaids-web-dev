@@ -100,20 +100,27 @@ button, input, select, textarea { font: inherit; color: inherit; }
   justify-content: center;
   opacity: 1;
   visibility: visible;
-  transition: opacity .5s var(--ease-expo), visibility .5s var(--ease-expo), transform .5s var(--ease-expo);
+  transform: translateY(0);
+  transition: transform .75s cubic-bezier(0.77, 0, 0.175, 1), opacity .5s ease .2s, visibility .75s;
   pointer-events: auto;
+  will-change: transform;
 }
 .site-loader.is-loaded {
-  opacity: 0;
+  transform: translateY(100%);
+  opacity: 0.98;
   visibility: hidden;
   pointer-events: none;
-  transform: scale(1.02);
 }
 .loader-inner {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1.25rem;
+  transition: transform .45s var(--ease), opacity .45s var(--ease);
+}
+.site-loader.is-loaded .loader-inner {
+  transform: translateY(2.5rem);
+  opacity: 0;
 }
 .loader-symbol {
   width: clamp(4.5rem, 8vw, 6rem);
@@ -232,9 +239,9 @@ p { max-width: 65ch; }
 .hero .lead, .hero-actions { animation: fade-up .9s var(--ease-expo) .42s both; }
 .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.75rem; animation-delay: .52s; }
 .hero-media { position: relative; margin-inline-end: calc(-1 * var(--gutter)); }
-.hero-photo { aspect-ratio: 4 / 5; max-height: 44rem; width: 100%; }
+.hero-photo { aspect-ratio: 4 / 3; max-height: 40rem; width: 100%; border-radius: 4px; overflow: hidden; box-shadow: 0 16px 32px -8px rgba(17, 24, 39, 0.12); }
 .hero-photo::after { animation: shutter 1.25s var(--ease-expo) .15s both; }
-.hero-photo img { animation: settle 1.8s var(--ease-expo) .15s both; }
+.hero-photo img { object-fit: cover; width: 100%; height: 100%; animation: settle 1.8s var(--ease-expo) .15s both; }
 .hero-inset { position: absolute; left: -1.25rem; bottom: -1.75rem; width: min(46%, 17rem); aspect-ratio: 4 / 3; border: 6px solid var(--paper); --chamfer: 1rem; animation: fade-up 1s var(--ease-expo) .75s both; }
 .stamp {
   position: relative; z-index: 2; flex: none; margin: -.5rem 0 -5rem auto; width: clamp(6.25rem, 10vw, 9rem); aspect-ratio: 1;
@@ -243,7 +250,7 @@ p { max-width: 65ch; }
   transform: rotate(-11deg); animation: stamp .5s cubic-bezier(.3, 1.4, .5, 1) 1.25s both; pointer-events: none;
 }
 @media (min-width: 56rem) {
-  .hero-grid { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(2.5rem, 5vw, 5rem); align-items: center; }
+  .hero-grid { grid-template-columns: minmax(0, 6.2fr) minmax(0, 5.8fr); gap: clamp(2.5rem, 5vw, 4.5rem); align-items: center; }
   .hero-media { margin-inline-end: calc(-1 * var(--edge)); }
   .hero-inset { left: -3.5rem; bottom: -2.25rem; }
   .stamp { margin-right: clamp(0rem, 3vw, 3rem); }
