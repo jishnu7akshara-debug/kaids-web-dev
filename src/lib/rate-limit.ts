@@ -30,8 +30,12 @@ export function checkEnquiryRateLimit(clientIp: string): { allowed: boolean; ret
     entry.reset24h = now + 24 * 60 * 60 * 1000;
   }
 
-  // Thresholds: max 5 per 10m, max 20 per 24h
-  if (entry.count10m >= 5) {
+  // Thresholds: max 5 per 10m in production (100 in dev/local for testing), max 20 per 24h
+  const isLocalDev = process.env.NODE_ENV !== 'production' && (clientIp === '127.0.0.1' || clientIp === '::1' || clientIp === 'localhost');
+  const max10m = isLocalDev ? 100 : 5;
+  const max24h = isLocalDev ? 500 : 20;
+
+  if (entry.count10m >= max10m) {
     const retryAfter = Math.ceil((entry.reset10m - now) / 1000);
     return {
       allowed: false,
@@ -40,7 +44,7 @@ export function checkEnquiryRateLimit(clientIp: string): { allowed: boolean; ret
     };
   }
 
-  if (entry.count24h >= 20) {
+  if (entry.count24h >= max24h) {
     const retryAfter = Math.ceil((entry.reset24h - now) / 1000);
     return {
       allowed: false,
