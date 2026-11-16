@@ -87,6 +87,18 @@
   </main>
 
   <script type="module">
+    const checkAuth = async () => {
+      try {
+        const res = await fetch('/api/admin/dashboard');
+        if (res.status === 401 || res.status === 403) {
+          window.location.href = '/admin/login.html';
+        }
+      } catch (e) {
+        // network or offline check
+      }
+    };
+    checkAuth();
+
     document.getElementById('logout-btn')?.addEventListener('click', async () => {
       await fetch('/api/auth', {
         method: 'POST',

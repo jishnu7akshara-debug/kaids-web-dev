@@ -57,11 +57,11 @@
       <div class="wrap">
         <div class="section-head svc-head">
           <div>
-            <p class="hero-tag" data-reveal>Complete Industrial Scope</p>
-            <h1 data-reveal="mask">Comprehensive services, one point of contact.</h1>
-            <p class="lead" data-reveal>From land allotment and statutory clearances to turnkey industrial shed construction, we carry the file across every department.</p>
+            <p class="hero-tag">Complete Industrial Scope</p>
+            <h1>Comprehensive services, one point of contact.</h1>
+            <p class="lead">From land allotment and statutory clearances to turnkey industrial shed construction, we carry the file across every department.</p>
           </div>
-          <div class="svc-filter" role="group" aria-label="Filter services" data-reveal>
+          <div class="svc-filter" role="group" aria-label="Filter services">
             <button class="chip" type="button" data-filter="all" aria-pressed="true">All</button>
             <button class="chip" type="button" data-filter="land" aria-pressed="false">Land and KIADB</button>
             <button class="chip" type="button" data-filter="approvals" aria-pressed="false">Approvals</button>
@@ -71,73 +71,153 @@
           </div>
         </div>
 
-        <div class="svc-grid">
-          <aside class="svc-panel" aria-hidden="true">
-            <div class="photo svc-stack">
-              <img class="is-active" data-shot="land" src="assets/img/svc-land-900.webp" width="900" height="1125" loading="lazy" decoding="async" alt="">
-              <img data-shot="approvals" src="assets/img/svc-approvals-900.webp" width="900" height="1126" loading="lazy" decoding="async" alt="">
-              <img data-shot="construction" src="assets/img/svc-construction-900.webp" width="900" height="1126" loading="lazy" decoding="async" alt="">
-              <img data-shot="plant" src="assets/img/svc-plant-900.webp" width="853" height="1067" loading="lazy" decoding="async" alt="">
-              <img data-shot="legal" src="assets/img/svc-legal-900.webp" width="853" height="1067" loading="lazy" decoding="async" alt="">
-            </div>
-            <p class="note svc-caption" data-shot-caption>Land and KIADB, three services</p>
-          </aside>
+        <!-- Clean card flow: Photo on top, relevant wording down -->
+        <div class="services-flow">
 
-          <div class="svc-list">
-            <div class="svc-group is-active" data-group="land" data-caption="Land and KIADB, three services">
-              <h2 class="svc-group-title" data-reveal="rule">Land and KIADB <span class="note">3 services</span></h2>
-              <p class="note" style="margin-bottom: 1.25rem; color: var(--indigo); font-weight: 520;">Authority: Karnataka Industrial Areas Development Board (KIADB) &bull; Deliverables: Allotment Letter, Lease-cum-Sale Agreement, Possession Certificate</p>
-              <ul data-stagger>
-                <li class="svc-row" data-reveal><h4>Application Assistance</h4><p>Applications to KIADB and allied departments, prepared and filed complete.</p></li>
-                <li class="svc-row" data-reveal><h4>Land Allotment Documentation</h4><p>The full paper trail for an industrial plot, from application through allotment.</p></li>
-                <li class="svc-row" data-reveal><h4>Dispute Solutions &amp; Ownership Transfer</h4><p>Support in resolving contested KIADB matters, arbitration, and ownership transfer documentation.</p></li>
+          <!-- 1. Land & KIADB -->
+          <article class="svc-card svc-group" data-group="land">
+            <figure class="svc-card-photo">
+              <img src="assets/img/svc-land-900.webp" width="900" height="1125" loading="lazy" decoding="async" alt="KIADB land allotment survey layout and plot paperwork">
+            </figure>
+            <div class="svc-card-content">
+              <div class="svc-card-header">
+                <h2>Land and KIADB</h2>
+                <span class="svc-card-badge">3 services</span>
+              </div>
+              <p class="svc-card-scope">Authority: Karnataka Industrial Areas Development Board (KIADB) &bull; Deliverables: Allotment Letter, Lease-cum-Sale Agreement, Possession Certificate</p>
+              <ul>
+                <li class="svc-row">
+                  <h4>Application Assistance</h4>
+                  <p>Applications to KIADB and allied departments, prepared and filed complete.</p>
+                </li>
+                <li class="svc-row">
+                  <h4>Land Allotment Documentation</h4>
+                  <p>The full paper trail for an industrial plot, from initial application through final allotment.</p>
+                </li>
+                <li class="svc-row">
+                  <h4>Dispute Solutions &amp; Ownership Transfer</h4>
+                  <p>Support in resolving contested KIADB matters, arbitration, and legal ownership transfer documentation.</p>
+                </li>
               </ul>
             </div>
+          </article>
 
-            <div class="svc-group" data-group="approvals" data-caption="Approvals and clearances, three services">
-              <h2 class="svc-group-title" data-reveal="rule">Approvals and clearances <span class="note">3 services</span></h2>
-              <p class="note" style="margin-bottom: 1.25rem; color: var(--indigo); font-weight: 520;">Authorities: KSPCB, Karnataka Fire &amp; Emergency Services, Local Planning Bodies &bull; Deliverables: Plan Sanction, CFE/CFO, Fire NOC</p>
-              <ul data-stagger>
-                <li class="svc-row" data-reveal><h4>Building Plan Sanction and Approvals</h4><p>Plan submissions followed through until the sanction is in hand.</p></li>
-                <li class="svc-row" data-reveal><h4>NOC and Approvals (PCB and Fire)</h4><p>No-objection certificates from the Pollution Control Board and the Fire department.</p></li>
-                <li class="svc-row" data-reveal><h4>Environmental Clearances &amp; Compliance</h4><p>Applications for environmental clearances and ongoing statutory filings to keep units compliant.</p></li>
+          <!-- 2. Approvals & Clearances -->
+          <article class="svc-card svc-group" data-group="approvals">
+            <figure class="svc-card-photo">
+              <img src="assets/img/svc-approvals-900.webp" width="900" height="1126" loading="lazy" decoding="async" alt="Building plan sanction and statutory pollution and fire approvals">
+            </figure>
+            <div class="svc-card-content">
+              <div class="svc-card-header">
+                <h2>Approvals and clearances</h2>
+                <span class="svc-card-badge">3 services</span>
+              </div>
+              <p class="svc-card-scope">Authorities: KSPCB, Karnataka Fire &amp; Emergency Services, Local Planning Bodies &bull; Deliverables: Plan Sanction, CFE/CFO, Fire NOC</p>
+              <ul>
+                <li class="svc-row">
+                  <h4>Building Plan Sanction and Approvals</h4>
+                  <p>Plan submissions followed through official planning desks until the sanction order is in hand.</p>
+                </li>
+                <li class="svc-row">
+                  <h4>NOC and Approvals (PCB and Fire)</h4>
+                  <p>No-objection certificates from the Pollution Control Board (CFE/CFO) and the Fire department.</p>
+                </li>
+                <li class="svc-row">
+                  <h4>Environmental Clearances &amp; Compliance</h4>
+                  <p>Applications for environmental clearances and ongoing statutory filings to keep manufacturing units compliant.</p>
+                </li>
               </ul>
             </div>
+          </article>
 
-            <div class="svc-group" data-group="construction" data-caption="Construction, three services">
-              <h2 class="svc-group-title" data-reveal="rule">Construction <span class="note">3 services</span></h2>
-              <p class="note" style="margin-bottom: 1.25rem; color: var(--indigo); font-weight: 520;">Compliance: Factories Act Bylaws &bull; Deliverables: Turnkey PEB warehouse shed, boundary fencing, structural handover</p>
-              <ul data-stagger>
-                <li class="svc-row" data-reveal><h4>Warehouse &amp; Industrial Shed Construction</h4><p>Sheds, warehouses and industrial buildings, built from planning to execution.</p></li>
-                <li class="svc-row" data-reveal><h4>Boundary Compound Wall Construction</h4><p>Boundary wall fencing and perimeter civil construction for industrial plots.</p></li>
-                <li class="svc-row" data-reveal><h4>Building Demolition &amp; Metal Scrap Purchase</h4><p>Demolition of existing structures, with purchase of the recovered metal scrap.</p></li>
+          <!-- 3. Construction -->
+          <article class="svc-card svc-group" data-group="construction">
+            <figure class="svc-card-photo">
+              <img src="assets/img/svc-construction-900.webp" width="900" height="1126" loading="lazy" decoding="async" alt="Industrial warehouse and pre-engineered shed construction">
+            </figure>
+            <div class="svc-card-content">
+              <div class="svc-card-header">
+                <h2>Construction</h2>
+                <span class="svc-card-badge">3 services</span>
+              </div>
+              <p class="svc-card-scope">Compliance: Factories Act Bylaws &bull; Deliverables: Turnkey PEB warehouse shed, boundary fencing, structural handover</p>
+              <ul>
+                <li class="svc-row">
+                  <h4>Warehouse &amp; Industrial Shed Construction</h4>
+                  <p>Sheds, warehouses, and industrial buildings, built from engineering planning to site execution.</p>
+                </li>
+                <li class="svc-row">
+                  <h4>Boundary Compound Wall Construction</h4>
+                  <p>Boundary wall fencing and perimeter civil construction securing industrial plots against encroachment.</p>
+                </li>
+                <li class="svc-row">
+                  <h4>Building Demolition &amp; Metal Scrap Purchase</h4>
+                  <p>Safe demolition of existing structures with competitive buyback of recovered structural steel and scrap.</p>
+                </li>
               </ul>
             </div>
+          </article>
 
-            <div class="svc-group" data-group="plant" data-caption="Plant and installations, three services">
-              <h2 class="svc-group-title" data-reveal="rule">Plant and installations <span class="note">3 services</span></h2>
-              <p class="note" style="margin-bottom: 1.25rem; color: var(--indigo); font-weight: 520;">Authorities: KSPCB, BESCOM, Electrical Inspectorate &bull; Deliverables: ETP/STP commissioning, Fire safety line, Solar grid sync</p>
-              <ul data-stagger>
-                <li class="svc-row" data-reveal><h4>Sewage and Effluent Treatment Plant</h4><p>STP and ETP installation for industrial units.</p></li>
-                <li class="svc-row" data-reveal><h4>Fire Rescue Installation</h4><p>Fire safety and rescue systems installed on site.</p></li>
-                <li class="svc-row" data-reveal><h4>Solar Panel Installation</h4><p>Solar panels installed on industrial premises.</p></li>
+          <!-- 4. Plant and Installations -->
+          <article class="svc-card svc-group" data-group="plant">
+            <figure class="svc-card-photo">
+              <img src="assets/img/svc-plant-900.webp" width="853" height="1067" loading="lazy" decoding="async" alt="Sewage and effluent treatment plant and industrial solar installations">
+            </figure>
+            <div class="svc-card-content">
+              <div class="svc-card-header">
+                <h2>Plant and installations</h2>
+                <span class="svc-card-badge">3 services</span>
+              </div>
+              <p class="svc-card-scope">Authorities: KSPCB, BESCOM, Electrical Inspectorate &bull; Deliverables: ETP/STP commissioning, Fire safety line, Solar grid sync</p>
+              <ul>
+                <li class="svc-row">
+                  <h4>Sewage and Effluent Treatment Plant</h4>
+                  <p>Design and installation of STP and ETP systems ensuring pollution control compliance.</p>
+                </li>
+                <li class="svc-row">
+                  <h4>Fire Rescue Installation</h4>
+                  <p>On-site fire hydrants, suppression systems, and emergency rescue infrastructure installed and tested.</p>
+                </li>
+                <li class="svc-row">
+                  <h4>Solar Panel Installation</h4>
+                  <p>Rooftop solar panels installed on industrial premises with BESCOM grid-synchronization.</p>
+                </li>
               </ul>
             </div>
+          </article>
 
-            <div class="svc-group" data-group="legal" data-caption="Finance and legal, three services">
-              <h2 class="svc-group-title" data-reveal="rule">Finance and legal <span class="note">3 services</span></h2>
-              <p class="note" style="margin-bottom: 1.25rem; color: var(--indigo); font-weight: 520;">Institutions: Consortium Banks, KSFC, District Registrar &bull; Deliverables: Bankable DPR, Search Report, Mortgage Permission</p>
-              <ul data-stagger>
-                <li class="svc-row" data-reveal><h4>Loan Sanction</h4><p>Documentation and coordination to get project loans sanctioned.</p></li>
-                <li class="svc-row" data-reveal><h4>Legal Documentation</h4><p>Agreements, deeds and legal paperwork for industrial property.</p></li>
-                <li class="svc-row" data-reveal><h4>Project Report Preparation</h4><p>Project reports prepared for lenders and departments.</p></li>
+          <!-- 5. Finance and Legal -->
+          <article class="svc-card svc-group" data-group="legal">
+            <figure class="svc-card-photo">
+              <img src="assets/img/svc-legal-900.webp" width="853" height="1067" loading="lazy" decoding="async" alt="Project reports, loan sanction and industrial legal deeds">
+            </figure>
+            <div class="svc-card-content">
+              <div class="svc-card-header">
+                <h2>Finance and legal</h2>
+                <span class="svc-card-badge">3 services</span>
+              </div>
+              <p class="svc-card-scope">Institutions: Consortium Banks, KSFC, District Registrar &bull; Deliverables: Bankable DPR, Search Report, Mortgage Permission</p>
+              <ul>
+                <li class="svc-row">
+                  <h4>Loan Sanction</h4>
+                  <p>Documentation, appraisal coordination, and bank liaison to secure industrial project loans.</p>
+                </li>
+                <li class="svc-row">
+                  <h4>Legal Documentation</h4>
+                  <p>Agreements, lease deeds, sale deeds, and title verification paperwork for industrial property.</p>
+                </li>
+                <li class="svc-row">
+                  <h4>Project Report Preparation</h4>
+                  <p>Comprehensive Detailed Project Reports (DPR) prepared for lending institutions and state departments.</p>
+                </li>
               </ul>
             </div>
+          </article>
 
-            <div style="margin-top: 3rem;" data-reveal>
-              <a class="btn" href="contact.html">Discuss your project requirements</a>
-            </div>
-          </div>
+        </div>
+
+        <div style="margin-top: 3.5rem; text-align: center;">
+          <a class="btn" href="contact.html">Discuss your project requirements</a>
         </div>
       </div>
     </section>
