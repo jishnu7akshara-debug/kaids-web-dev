@@ -202,22 +202,29 @@
 
     var syncActiveGroup = function () {
       if (!groups.length) return;
-      var panelTop = panel ? panel.getBoundingClientRect().top : 120;
-      var activeGroup = null;
+      var triggerY = window.innerHeight * 0.45;
+      var currentGroup = null;
+
       for (var i = 0; i < groups.length; i++) {
         var g = groups[i];
         if (g.hidden) continue;
         var rect = g.getBoundingClientRect();
-        if (rect.top <= panelTop + 60 && rect.bottom >= panelTop) {
-          activeGroup = g.getAttribute('data-group');
+        if (rect.top <= triggerY) {
+          currentGroup = g.getAttribute('data-group');
         }
       }
-      if (activeGroup) showShot(activeGroup);
+
+      if (!currentGroup && groups.length > 0) {
+        currentGroup = groups[0].getAttribute('data-group');
+      }
+
+      if (currentGroup) {
+        showShot(currentGroup);
+      }
     };
 
-    window.addEventListener('scroll', function () {
-      window.requestAnimationFrame(syncActiveGroup);
-    }, { passive: true });
+    window.addEventListener('scroll', syncActiveGroup, { passive: true });
+    window.addEventListener('resize', syncActiveGroup, { passive: true });
 
     // Initial state: activate first group
     if (groups.length) showShot(groups[0].getAttribute('data-group'));

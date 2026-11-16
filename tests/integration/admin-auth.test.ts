@@ -1,16 +1,18 @@
 import { describe, it, expect } from 'vitest';
-import { sanitizeCsvCell } from '../../api/admin.js';
-import { createSessionCookie, verifyCsrfToken, generateCsrfToken } from '../../src/lib/session.js';
 
 process.env.SESSION_SECRET = 'a'.repeat(32);
 process.env.IP_HASH_SALT = 'b'.repeat(32);
 process.env.TOTP_ENCRYPTION_KEY = 'c'.repeat(32);
 process.env.DATABASE_URL = 'postgres://app:secret@localhost:5432/kaids';
-process.env.MAIL_PROVIDER_API_KEY = 're_123';
-process.env.MAIL_FROM = 'test@example.com';
-process.env.NOTIFY_TO = 'admin@example.com';
+process.env.MAIL_PROVIDER_API_KEY = 're_test_dummy';
+process.env.MAIL_FROM = 'enquiries@notify.kaids.in';
+process.env.NOTIFY_TO = 'admin@kaids.in';
 process.env.CRON_SECRET = 'd'.repeat(16);
 process.env.APP_ORIGIN = 'http://localhost:8085';
+process.env.PRIVACY_NOTICE_VERSION = '2026-11-v1';
+
+import { sanitizeCsvCell } from '../../api/admin.js';
+import { createSessionCookie, verifyCsrfToken, generateCsrfToken } from '../../src/lib/session.js';
 
 describe('Phase 3: Admin Auth & Hardening Verification', () => {
   it('generates secure __Host- session cookie with all required attributes', () => {
@@ -48,3 +50,4 @@ describe('Phase 3: Admin Auth & Hardening Verification', () => {
     expect(sanitizeCsvCell(normal)).toBe('Normal Company Name');
   });
 });
+

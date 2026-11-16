@@ -16,16 +16,12 @@ function parseCookies(cookieHeader = ''): Record<string, string> {
 // Formula Injection sanitizer for CSV export
 export function sanitizeCsvCell(value: any): string {
   if (value === null || value === undefined) return '';
-  const str = String(value);
+  const str = String(value).trim();
   // Prefix dangerous characters =, +, -, @, \t, \r with single quote
   if (/^[=+\-@\t\r]/.test(str)) {
-    return `'${str.trim()}`;
+    return `'${str}`;
   }
-  const trimmed = str.trim();
-  if (/^[=+\-@\t\r]/.test(trimmed)) {
-    return `'${trimmed}`;
-  }
-  return trimmed.replace(/"/g, '""');
+  return str.replace(/"/g, '""');
 }
 
 export default async function handler(req: any, res: any) {
@@ -125,3 +121,4 @@ export default async function handler(req: any, res: any) {
   res.statusCode = 200;
   return res.end(JSON.stringify({ ok: true, user: user.email }));
 }
+

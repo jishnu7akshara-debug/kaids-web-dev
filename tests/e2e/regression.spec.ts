@@ -25,12 +25,36 @@ test.describe('KAIDS Public Site Regression Baseline', () => {
   });
 
   test('Services section displays groups and photo interaction', async ({ page }) => {
-    await page.goto('/index.html#services');
+    await page.goto('/index.html');
+    
+    // Verify first shot (land) is active initially
+    const landShot = page.locator('.svc-stack img[data-shot="land"]');
+    await expect(landShot).toHaveClass(/is-active/);
+
+    // Scroll into services section
     const servicesSection = page.locator('#services');
+    await servicesSection.scrollIntoViewIfNeeded();
     await expect(servicesSection).toBeVisible();
 
-    const activeGroup = page.locator('.svc-group.is-active');
-    await expect(activeGroup).toBeVisible();
+    if (page.viewportSize()?.width && page.viewportSize()!.width >= 992) {
+      const panel = page.locator('.svc-panel');
+      await expect(panel).toHaveCSS('position', 'sticky');
+    }
+
+    // Scroll down to Approvals and clearances group
+    const approvalsGroup = page.locator('.svc-group[data-group="approvals"]');
+    await approvalsGroup.scrollIntoViewIfNeeded();
+
+    // Verify photo switches to approvals and approvals group becomes active
+    const approvalsShot = page.locator('.svc-stack img[data-shot="approvals"]');
+    await expect(approvalsShot).toHaveClass(/is-active/);
+    await expect(approvalsGroup).toHaveClass(/is-active/);
+
+    // Test filter chip interaction
+    const constructionChip = page.locator('.svc-filter button[data-filter="construction"]');
+    await constructionChip.click();
+    const constructionShot = page.locator('.svc-stack img[data-shot="construction"]');
+    await expect(constructionShot).toHaveClass(/is-active/);
   });
 
   test('Form client-side validation displays expected field messages', async ({ page }) => {

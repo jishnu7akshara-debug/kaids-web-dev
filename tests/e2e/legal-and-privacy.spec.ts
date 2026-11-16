@@ -36,7 +36,7 @@ test.describe('Phase 4: Legal & Privacy DPDP Verification', () => {
     await page.goto('/privacy.html');
     await expect(page.locator('h1')).toHaveText('Privacy notice');
     await expect(page.locator('main').locator('text=Karnataka Industrial Documentation Services').first()).toBeVisible();
-    await expect(page.locator('text=grievance@kaids.in').first()).toBeVisible();
+    await expect(page.locator('text=grievance@kaids.in')).toBeVisible();
   });
 
   test('Cookie disclosure page documents __Host-kaids_session and zero public cookies', async ({ page }) => {
@@ -52,3 +52,4 @@ test.describe('Phase 4: Legal & Privacy DPDP Verification', () => {
     await expect(page.locator('text=Informational Purposes & No Legal Advice')).toBeVisible();
   });
 });
+
