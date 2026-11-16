@@ -91,6 +91,70 @@ button, input, select, textarea { font: inherit; color: inherit; }
 
 /* ---------- Type roles ---------- */
 .display, h1 { font-size: var(--t-display); font-weight: 600; font-stretch: 112%; line-height: 1; letter-spacing: -.028em; }
+.site-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: var(--paper);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity .5s var(--ease-expo), visibility .5s var(--ease-expo), transform .5s var(--ease-expo);
+  pointer-events: auto;
+}
+.site-loader.is-loaded {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: scale(1.02);
+}
+.loader-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+}
+.loader-symbol {
+  width: clamp(4.5rem, 8vw, 6rem);
+  height: clamp(4.5rem, 8vw, 6rem);
+  object-fit: contain;
+  filter: drop-shadow(0 4px 14px rgba(81, 54, 224, 0.22));
+  animation: loader-spin 3.2s cubic-bezier(.4, 0, .2, 1) infinite;
+  transform-origin: center;
+}
+.loader-bar {
+  width: 4.5rem;
+  height: 2.5px;
+  background: var(--line);
+  overflow: hidden;
+  position: relative;
+  border-radius: 2px;
+}
+.loader-bar::after {
+  content: "";
+  position: absolute;
+  left: -50%;
+  top: 0;
+  height: 100%;
+  width: 50%;
+  background: var(--stamp);
+  animation: loader-slide 1.4s var(--ease) infinite;
+}
+@keyframes loader-spin {
+  0% { transform: rotate(0deg) scale(0.96); opacity: 0.85; }
+  50% { transform: rotate(180deg) scale(1.04); opacity: 1; }
+  100% { transform: rotate(360deg) scale(0.96); opacity: 0.85; }
+}
+@keyframes loader-slide {
+  0% { left: -50%; width: 30%; }
+  50% { left: 35%; width: 55%; }
+  100% { left: 105%; width: 30%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .site-loader { display: none !important; }
+}
 h2 { font-size: var(--t-h2); font-weight: 580; font-stretch: 110%; line-height: 1.04; letter-spacing: -.022em; text-wrap: balance; }
 h3 { font-size: var(--t-h3); font-weight: 600; font-stretch: 105%; line-height: 1.2; letter-spacing: -.01em; }
 h4 { font-size: 1.125rem; font-weight: 600; line-height: 1.3; }

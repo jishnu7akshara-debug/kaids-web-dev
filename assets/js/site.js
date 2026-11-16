@@ -12,6 +12,27 @@
   var $$ = function (sel, ctx) { return Array.prototype.slice.call((ctx || document).querySelectorAll(sel)); };
   var clamp = function (n, lo, hi) { return Math.min(hi, Math.max(lo, n)); };
 
+  /* ---------- Smooth Page Loader ---------- */
+  var siteLoader = document.getElementById('site-loader');
+  if (siteLoader) {
+    var dismissLoader = function () {
+      siteLoader.classList.add('is-loaded');
+      setTimeout(function () {
+        if (siteLoader && siteLoader.parentNode) siteLoader.parentNode.removeChild(siteLoader);
+      }, 550);
+    };
+
+    if (document.readyState === 'complete') {
+      setTimeout(dismissLoader, 350);
+    } else {
+      window.addEventListener('load', function () {
+        setTimeout(dismissLoader, 350);
+      });
+      // Fallback timeout so loader never hangs
+      setTimeout(dismissLoader, 2500);
+    }
+  }
+
   /* ---------- Header: hairline once scrolled, hide on scroll down, show on scroll up ---------- */
   var header = $('[data-header]');
   var mobileBar = $('[data-mobile-bar]');
