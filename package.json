@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "Karnataka Industrial Documentation Services (KAIDS) Website & Backend",
   "scripts": {
-    "start": "npx serve -l 8085 .",
-    "dev": "npx serve -l 8085 .",
+    "start": "tsx dev-server.ts",
+    "dev": "tsx dev-server.ts",
     "serve:py": "python -m http.server 8085",
     "test": "vitest run",
     "test:e2e": "playwright test",

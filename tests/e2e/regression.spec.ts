@@ -71,6 +71,35 @@ test.describe('KAIDS Public Site Regression Baseline', () => {
     await expect(nameError).toHaveText('Enter your name.');
   });
 
+  test('Form submission to /api/enquiries completes successfully and displays success message', async ({ page }) => {
+    await page.goto('/contact.html');
+    const form = page.locator('[data-enquiry]');
+    await expect(form).toBeVisible();
+
+    // Focus to set startedAt timing
+    await page.focus('#f-name');
+    await page.fill('#f-name', 'Ramesh Vernekar');
+    // Wait for the 3-second anti-bot timing check
+    await page.waitForTimeout(3200);
+
+    await page.fill('#f-phone', '9845012345');
+    await page.fill('#f-email', 'ramesh@example.com');
+    await page.fill('#f-company', 'Vernekar Industries');
+    await page.selectOption('#f-service', 'Building Plan Sanction and Approvals');
+    await page.fill('#f-message', 'Need help with KIADB land allotment in Harohalli.');
+    await page.check('#f-consent');
+
+    const [response] = await Promise.all([
+      page.waitForResponse(res => res.url().includes('/api/enquiries')),
+      form.locator('button[type="submit"]').click()
+    ]);
+
+    expect([200, 201]).toContain(response.status());
+    const statusMsg = form.locator('[data-form-status]');
+    await expect(statusMsg).toBeVisible();
+    await expect(statusMsg).toContainText('Enquiry sent');
+  });
+
   test('Clients page search filters client items', async ({ page }) => {
     await page.goto('/clients.html');
     const searchInput = page.locator('#client-search');
