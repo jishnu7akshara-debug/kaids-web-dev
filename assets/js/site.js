@@ -132,7 +132,7 @@
     });
   }
 
-  /* ---------- Marquees: duplicate the list, loop it, give it a pause button ---------- */
+  /* ---------- Marquees: duplicate the list, continuous loop ---------- */
   $$('[data-marquee]').forEach(function (m) {
     if (reduceMotion) return;
     var list = $('ul', m);
