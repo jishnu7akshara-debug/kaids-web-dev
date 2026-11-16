@@ -293,7 +293,9 @@ p { max-width: 65ch; }
 
 /* About */
 .about-grid { display: grid; gap: 3rem; }
+.about-visuals { max-width: 26rem; width: 100%; }
 .about-photo { aspect-ratio: 4 / 5; max-width: 26rem; width: 100%; border-radius: 4px; overflow: hidden; }
+.about-caption { margin-top: 0.65rem; color: var(--graphite); font-size: 0.85rem; }
 .about-statement { font-size: var(--t-h2); font-weight: 520; font-stretch: 104%; line-height: 1.12; letter-spacing: -.02em; max-width: 22em; text-wrap: balance; }
 .about-cols { display: grid; gap: 2rem; margin-top: clamp(2.5rem, 5vw, 3.5rem); }
 .about-cols h3 { margin-bottom: .6rem; }
@@ -308,7 +310,12 @@ p { max-width: 65ch; }
 }
 @media (min-width: 56rem) {
   .about-grid { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: clamp(3rem, 7vw, 7rem); align-items: start; }
-  .about-photo { position: sticky; top: calc(var(--header-h) + 2rem); }
+  .about-photo,
+  .about-visuals {
+    position: sticky;
+    top: calc(var(--header-h) + 2rem);
+    align-self: start;
+  }
   .about-cols { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2.25rem; }
 }
 
