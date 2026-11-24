@@ -113,7 +113,7 @@ test.describe('KAIDS Public Site Regression Baseline', () => {
   test('Dedicated pages (about, services, process, contact) load correctly with zero errors', async ({ page }) => {
     const pages = [
       { url: '/about.html', titleText: 'Industrial documentation, liaison' },
-      { url: '/services.html', titleText: 'Comprehensive services' },
+      { url: '/services.html', titleText: 'Thirteen services' },
       { url: '/process.html', titleText: 'How a file moves' },
       { url: '/contact.html', titleText: 'Tell us about your plot' }
     ];

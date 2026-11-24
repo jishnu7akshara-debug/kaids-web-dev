@@ -11,6 +11,7 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "tsx src/db/migrate.ts",
     "db:seed-owner": "tsx src/db/seed-owner.ts",
+    "db:seed-clients": "tsx src/db/seed-clients.ts",
     "lint": "tsc --noEmit",
     "audit": "npm audit --omit=dev",
     "security:scan": "vitest run tests/security"

@@ -15,24 +15,40 @@
   /* ---------- Smooth Page Loader ---------- */
   var siteLoader = document.getElementById('site-loader');
   if (siteLoader) {
-    var dismissed = false;
-    var dismissLoader = function () {
-      if (dismissed) return;
-      dismissed = true;
-      siteLoader.classList.add('is-loaded');
-      setTimeout(function () {
-        if (siteLoader && siteLoader.parentNode) siteLoader.parentNode.removeChild(siteLoader);
-      }, 800);
-    };
+    var hasSeenLoader = false;
+    try {
+      hasSeenLoader = sessionStorage.getItem('kaids_loaded') === '1';
+    } catch (e) {}
 
-    if (document.readyState === 'complete') {
-      setTimeout(dismissLoader, 350);
+    if (hasSeenLoader) {
+      if (siteLoader.parentNode) siteLoader.parentNode.removeChild(siteLoader);
+      siteLoader = null;
     } else {
-      window.addEventListener('load', function () {
-        setTimeout(dismissLoader, 350);
-      });
-      // Fallback timeout so loader never hangs
-      setTimeout(dismissLoader, 2800);
+      try {
+        sessionStorage.setItem('kaids_loaded', '1');
+      } catch (e) {}
+      var startTime = Date.now();
+      var dismissed = false;
+      var dismissLoader = function () {
+        if (dismissed || !siteLoader) return;
+        dismissed = true;
+        var elapsed = Date.now() - startTime;
+        var minRemaining = Math.max(0, 500 - elapsed);
+        setTimeout(function () {
+          if (!siteLoader) return;
+          siteLoader.classList.add('is-loaded');
+          setTimeout(function () {
+            if (siteLoader && siteLoader.parentNode) siteLoader.parentNode.removeChild(siteLoader);
+          }, 450);
+        }, minRemaining);
+      };
+
+      if (document.readyState === 'complete') {
+        dismissLoader();
+      } else {
+        window.addEventListener('load', dismissLoader);
+        setTimeout(dismissLoader, 2500);
+      }
     }
   }
 
@@ -165,14 +181,11 @@
     var chips = $$('[data-filter]', svc);
     var groups = $$('[data-group]', svc);
     var shots = $$('[data-shot]', svc);
-    var caption = $('[data-shot-caption]', svc);
     var panel = $('.svc-panel', svc);
 
     var showShot = function (name) {
       shots.forEach(function (img) { img.classList.toggle('is-active', img.getAttribute('data-shot') === name); });
       groups.forEach(function (g) { g.classList.toggle('is-active', g.getAttribute('data-group') === name); });
-      var g = groups.filter(function (x) { return x.getAttribute('data-group') === name; })[0];
-      if (g && caption) caption.textContent = g.getAttribute('data-caption');
     };
 
     chips.forEach(function (chip) {
@@ -247,7 +260,7 @@
     var status = $('[data-form-status]', form);
     var submit = $('button[type="submit"]', form);
     var submitLabel = submit.textContent;
-    var phoneFallback = form.getAttribute('data-phone') || '99163 10226';
+    var phoneFallback = form.getAttribute('data-phone') || '93531 28035';
     var formStartedAt = null;
 
     form.addEventListener('focusin', function () {

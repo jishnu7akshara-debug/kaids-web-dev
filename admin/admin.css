@@ -171,6 +171,209 @@ body.admin-body {
   color: var(--ok);
 }
 
+.status-chip[data-status="published"] {
+  background: #DCFCE7;
+  color: var(--ok);
+}
+
+.status-chip[data-status="hidden"] {
+  background: var(--paper-2);
+  color: var(--graphite);
+}
+
+.status-chip[data-status="deleted"] {
+  background: #FEE2E2;
+  color: var(--alert);
+}
+
+/* Placements */
+.placement-tags {
+  display: flex;
+  gap: .35rem;
+  flex-wrap: wrap;
+}
+
+.placement-tag {
+  font-size: .75rem;
+  padding: .15rem .45rem;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  color: var(--graphite);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+}
+
+.placement-tag.is-active {
+  background: var(--indigo);
+  border-color: var(--indigo);
+  color: var(--on-ink);
+}
+
+/* Client Thumb */
+.client-logo-thumb {
+  width: 4rem;
+  height: 2.25rem;
+  object-fit: contain;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  padding: .2rem;
+  display: block;
+}
+
+.client-logo-placeholder {
+  width: 4rem;
+  height: 2.25rem;
+  background: var(--paper);
+  border: 1px dashed var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .7rem;
+  color: var(--slate);
+}
+
+/* Admin Toolbar */
+.admin-toolbar {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.admin-toolbar-group {
+  display: flex;
+  gap: .75rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* Buttons in Table */
+.btn-sm {
+  min-height: 1.85rem;
+  padding: 0 .6rem;
+  font-size: .8rem;
+  line-height: 1.85rem;
+}
+
+.btn-danger {
+  background: var(--alert);
+  color: var(--white);
+  border: 1px solid var(--alert);
+}
+.btn-danger:hover {
+  background: #b91c1c;
+}
+
+/* Modal / Drawer */
+.admin-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.6);
+  z-index: 1000;
+  display: flex;
+  justify-content: flex-end;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .2s ease, visibility .2s ease;
+}
+
+.admin-modal-overlay.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.admin-drawer {
+  width: 100%;
+  max-width: 32rem;
+  height: 100%;
+  background: var(--white);
+  overflow-y: auto;
+  box-shadow: -4px 0 24px rgba(0,0,0,0.15);
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-drawer-head {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.admin-drawer-body {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  flex: 1;
+}
+
+.admin-drawer-foot {
+  padding: 1.25rem 1.5rem;
+  border-top: 1px solid var(--line);
+  display: flex;
+  justify-content: flex-end;
+  gap: .75rem;
+  background: var(--paper);
+}
+
+.dropzone-box {
+  border: 2px dashed var(--line);
+  padding: 1.5rem;
+  text-align: center;
+  background: var(--paper);
+  cursor: pointer;
+  transition: border-color .15s ease;
+}
+
+.dropzone-box:hover, .dropzone-box.is-dragover {
+  border-color: var(--amber);
+  background: var(--amber-tint);
+}
+
+.form-check {
+  display: flex;
+  align-items: flex-start;
+  gap: .6rem;
+  font-size: .9rem;
+  cursor: pointer;
+}
+
+.form-check input[type="checkbox"] {
+  margin-top: .2rem;
+  accent-color: var(--amber);
+}
+
+/* Reorder Buttons */
+.order-controls {
+  display: flex;
+  gap: .25rem;
+}
+
+.order-btn {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  width: 1.75rem;
+  height: 1.75rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: .8rem;
+  color: var(--graphite);
+}
+.order-btn:hover:not(:disabled) {
+  background: var(--concrete);
+  color: var(--ink);
+}
+.order-btn:disabled {
+  opacity: .35;
+  cursor: not-allowed;
+}
+
 /* Mobile Responsiveness (390px) */
 @media (max-width: 56rem) {
   body.admin-body {
@@ -181,5 +384,8 @@ body.admin-body {
   }
   .admin-content {
     padding: 1rem;
+  }
+  .admin-drawer {
+    max-width: 100%;
   }
 }

@@ -16,10 +16,7 @@ export const allowedServices = [
   'Warehouse, Building and Boundary Compound Construction',
   'Building Demolition & Metal Scrap Purchase',
   'Building Demolition and Metal Scrap Purchase',
-  'Sewage and Effluent Treatment Plant',
-  'Fire Rescue Installation',
-  'Solar Panel Installation',
-  'Loan Sanction',
+  'Government Subsidy and Incentive Assistance',
   'Legal Documentation',
   'Project Report Preparation',
   'Not sure yet'

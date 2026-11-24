@@ -100,14 +100,14 @@ button, input, select, textarea { font: inherit; color: inherit; }
   justify-content: center;
   opacity: 1;
   visibility: visible;
-  transform: translateY(0);
-  transition: transform .75s cubic-bezier(0.77, 0, 0.175, 1), opacity .5s ease .2s, visibility .75s;
+  transition: opacity .4s ease, visibility .4s;
   pointer-events: auto;
-  will-change: transform;
+}
+.no-js .site-loader {
+  display: none !important;
 }
 .site-loader.is-loaded {
-  transform: translateY(100%);
-  opacity: 0.98;
+  opacity: 0;
   visibility: hidden;
   pointer-events: none;
 }
@@ -115,51 +115,16 @@ button, input, select, textarea { font: inherit; color: inherit; }
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.25rem;
-  transition: transform .45s var(--ease), opacity .45s var(--ease);
-}
-.site-loader.is-loaded .loader-inner {
-  transform: translateY(2.5rem);
-  opacity: 0;
+  justify-content: center;
 }
 .loader-symbol {
-  width: clamp(4.5rem, 8vw, 6rem);
-  height: clamp(4.5rem, 8vw, 6rem);
+  width: 96px;
+  height: 96px;
   object-fit: contain;
-  filter: drop-shadow(0 4px 14px rgba(81, 54, 224, 0.22));
-  animation: loader-spin 3.2s cubic-bezier(.4, 0, .2, 1) infinite;
-  transform-origin: center;
-}
-.loader-bar {
-  width: 4.5rem;
-  height: 2.5px;
-  background: var(--line);
-  overflow: hidden;
-  position: relative;
-  border-radius: 2px;
-}
-.loader-bar::after {
-  content: "";
-  position: absolute;
-  left: -50%;
-  top: 0;
-  height: 100%;
-  width: 50%;
-  background: var(--stamp);
-  animation: loader-slide 1.4s var(--ease) infinite;
-}
-@keyframes loader-spin {
-  0% { transform: rotate(0deg) scale(0.96); opacity: 0.85; }
-  50% { transform: rotate(180deg) scale(1.04); opacity: 1; }
-  100% { transform: rotate(360deg) scale(0.96); opacity: 0.85; }
-}
-@keyframes loader-slide {
-  0% { left: -50%; width: 30%; }
-  50% { left: 35%; width: 55%; }
-  100% { left: 105%; width: 30%; }
+  display: block;
 }
 @media (prefers-reduced-motion: reduce) {
-  .site-loader { display: none !important; }
+  .loader-symbol { animation: none !important; }
 }
 h2 { font-size: var(--t-h2); font-weight: 580; font-stretch: 110%; line-height: 1.04; letter-spacing: -.022em; text-wrap: balance; }
 h3 { font-size: var(--t-h3); font-weight: 600; font-stretch: 105%; line-height: 1.2; letter-spacing: -.01em; }
@@ -205,6 +170,7 @@ p { max-width: 65ch; }
 .nav a:hover, .nav a[aria-current="true"] { background-size: 100% 2px; }
 .nav-contact { display: none; }
 .menu-toggle { display: none; }
+@media (min-width: 56.0625rem) { .nav-contact-link { display: none; } }
 @media (min-width: 75rem) { .brand-full { display: none; } }
 
 @media (max-width: 56rem) {
@@ -297,7 +263,6 @@ p { max-width: 65ch; }
 .about-grid { display: grid; gap: 3rem; }
 .about-visuals { max-width: 26rem; width: 100%; }
 .about-photo { aspect-ratio: 4 / 5; max-width: 26rem; width: 100%; border-radius: 4px; overflow: hidden; }
-.about-caption { margin-top: 0.65rem; color: var(--graphite); font-size: 0.85rem; }
 .about-statement { font-size: var(--t-h2); font-weight: 520; font-stretch: 104%; line-height: 1.12; letter-spacing: -.02em; max-width: 22em; text-wrap: balance; }
 .about-cols { display: grid; gap: 2rem; margin-top: clamp(2.5rem, 5vw, 3.5rem); }
 .about-cols h3 { margin-bottom: .6rem; }
@@ -307,6 +272,10 @@ p { max-width: 65ch; }
 .pillar-card { padding: 1.25rem 1.4rem; background: var(--paper-warm); border: 1px solid var(--line); border-radius: 4px; }
 .pillar-card h4 { font-size: 1.05rem; font-weight: 600; margin-bottom: .4rem; color: var(--indigo); }
 .pillar-card p { color: var(--graphite); font-size: 0.95rem; line-height: 1.55; }
+.dark .pillar-card { background: #1e2638; border-color: rgba(255, 255, 255, 0.12); }
+.dark .pillar-card h4 { color: var(--on-ink); }
+.dark .pillar-card p { color: var(--on-ink); }
+.dark .about-pillars { border-top-color: var(--line-on-ink); }
 @media (min-width: 42rem) {
   .about-pillars { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
@@ -422,24 +391,6 @@ p { max-width: 65ch; }
     transition: opacity .32s ease-in-out;
   }
   .svc-stack img.is-active { opacity: 1; transform: none; }
-  .svc-caption {
-    margin-top: .85rem;
-    font-weight: 560;
-    display: flex;
-    align-items: center;
-    gap: .5rem;
-    color: var(--ink);
-  }
-  .svc-caption::before {
-    content: "";
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background-color: #16a34a;
-    box-shadow: 0 0 8px #16a34a;
-    flex-shrink: 0;
-  }
 }
 
 /* Services page simple clean animations */

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Client Manager | KAIDS Admin</title>
+  <link rel="stylesheet" href="admin.css">
+  <link rel="icon" href="../assets/img/favicon-32.png">
+</head>
+<body class="admin-body">
+  <aside class="admin-sidebar">
+    <div class="admin-sidebar-brand">
+      <img src="../assets/img/kaids-seal.webp" width="32" height="32" alt="">
+      <span>KAIDS Admin</span>
+    </div>
+    <nav class="admin-nav" aria-label="Admin Navigation">
+      <a href="/admin/">Dashboard</a>
+      <a href="/admin/enquiries.html">Enquiries</a>
+      <a href="/admin/clients.html" aria-current="page">Clients</a>
+      <a href="/admin/privacy.html">Privacy requests</a>
+      <a href="/admin/audit.html">Audit log</a>
+      <a href="/admin/settings.html">Settings</a>
+    </nav>
+  </aside>
+
+  <main class="admin-main">
+    <header class="admin-header">
+      <h1>Client Directory &amp; Logos</h1>
+      <div class="admin-toolbar-group">
+        <button class="btn btn-quiet" id="btn-publish">Publish Changes</button>
+        <button class="btn" id="btn-add-client">+ Add Client</button>
+      </div>
+    </header>
+
+    <div class="admin-content">
+      <div class="admin-toolbar">
+        <div class="admin-toolbar-group">
+          <div class="field" style="width: 18rem;">
+            <input type="search" id="client-search" placeholder="Search by company or location...">
+          </div>
+          <div class="field" style="width: 10rem;">
+            <select id="status-filter">
+              <option value="all">All Clients</option>
+              <option value="published">Published</option>
+              <option value="hidden">Hidden</option>
+              <option value="trash">Trash (Deleted)</option>
+            </select>
+          </div>
+        </div>
+        <div class="admin-toolbar-group">
+          <span class="note" id="client-total-count">Loading clients...</span>
+        </div>
+      </div>
+
+      <div class="admin-table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th scope="col" style="width: 4.5rem;">Order</th>
+              <th scope="col" style="width: 5.5rem;">Logo</th>
+              <th scope="col">Name &amp; Location</th>
+              <th scope="col">Placements</th>
+              <th scope="col" style="width: 6.5rem;">Status</th>
+              <th scope="col" style="width: 11rem;">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="client-table-body">
+            <!-- Rendered by clients.js -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <!-- Add / Edit Client Drawer -->
+  <div class="admin-modal-overlay" id="client-drawer-overlay" aria-hidden="true">
+    <div class="admin-drawer" role="dialog" aria-labelledby="drawer-title">
+      <div class="admin-drawer-head">
+        <h2 id="drawer-title" style="font-size: 1.15rem; font-weight: 600;">Add Client</h2>
+        <button type="button" class="btn btn-quiet btn-sm" id="btn-close-drawer">&times;</button>
+      </div>
+      <form id="client-form" class="admin-drawer-body">
+        <input type="hidden" id="field-client-id" value="">
+
+        <div class="field">
+          <label for="field-name">Company Name *</label>
+          <input type="text" id="field-name" required placeholder="e.g. Acme Precision Products">
+          <p class="field-error" id="name-error" style="display:none; color: var(--alert); font-size: .85rem; margin-top: .25rem;"></p>
+        </div>
+
+        <div class="field">
+          <label for="field-location">Location (optional)</label>
+          <input type="text" id="field-location" placeholder="e.g. Harohalli, Bengaluru">
+        </div>
+
+        <div class="field">
+          <label>Client Logo (optional)</label>
+          <div class="dropzone-box" id="logo-dropzone">
+            <input type="file" id="logo-file-input" accept="image/png,image/webp,image/jpeg,image/svg+xml" style="display: none;">
+            <div id="dropzone-empty">
+              <p style="font-weight: 540; margin-bottom: .25rem;">Drag &amp; drop logo or click to browse</p>
+              <p class="note">PNG, WebP, SVG, JPEG up to 2 MB</p>
+            </div>
+            <div id="dropzone-preview" style="display: none;">
+              <img id="logo-preview-img" src="" alt="Preview" style="max-height: 4rem; max-width: 100%; object-fit: contain; margin-bottom: .5rem;">
+              <p class="note" id="logo-dimensions-info"></p>
+              <button type="button" class="btn btn-quiet btn-sm" id="btn-remove-logo" style="margin-top: .5rem;">Remove Logo</button>
+            </div>
+          </div>
+          <input type="hidden" id="field-logo-key" value="">
+          <input type="hidden" id="field-logo-w" value="">
+          <input type="hidden" id="field-logo-h" value="">
+        </div>
+
+        <div class="field">
+          <label style="margin-bottom: .5rem;">Site Placements</label>
+          <div style="display: flex; flex-direction: column; gap: .5rem;">
+            <label class="form-check">
+              <input type="checkbox" id="check-home-strip">
+              <span>Home page marquee strip (Featured logos)</span>
+            </label>
+            <label class="form-check">
+              <input type="checkbox" id="check-logo-grid">
+              <span>Clients page top logo grid (/clients)</span>
+            </label>
+            <label class="form-check">
+              <input type="checkbox" id="check-name-list" checked>
+              <span>Clients page searchable directory list</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="field-status">Status</label>
+          <select id="field-status">
+            <option value="published">Published (Visible on site)</option>
+            <option value="hidden">Hidden (Draft / Unpublished)</option>
+          </select>
+        </div>
+      </form>
+      <div class="admin-drawer-foot">
+        <button type="button" class="btn btn-quiet" id="btn-cancel-drawer">Cancel</button>
+        <button type="button" class="btn" id="btn-save-client">Save Client</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="clients.js"></script>
+</body>
+</html>

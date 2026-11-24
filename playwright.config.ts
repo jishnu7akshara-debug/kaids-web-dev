@@ -10,6 +10,7 @@ export default defineConfig({
   reporter: 'list',
   use: {
     baseURL: 'http://localhost:8085',
+    channel: 'chrome',
     trace: 'on-first-retry'
   },
   projects: [

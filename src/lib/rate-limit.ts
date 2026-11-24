@@ -40,7 +40,7 @@ export function checkEnquiryRateLimit(clientIp: string): { allowed: boolean; ret
     return {
       allowed: false,
       retryAfter,
-      error: 'Too many enquiries from this connection. Please call 99163 10226.'
+      error: 'Too many enquiries from this connection. Please call 93531 28035.'
     };
   }
 
@@ -49,7 +49,7 @@ export function checkEnquiryRateLimit(clientIp: string): { allowed: boolean; ret
     return {
       allowed: false,
       retryAfter,
-      error: 'Too many enquiries from this connection. Please call 99163 10226.'
+      error: 'Too many enquiries from this connection. Please call 93531 28035.'
     };
   }
 

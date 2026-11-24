@@ -26,10 +26,6 @@
         <label for="admin-password">Password</label>
         <input id="admin-password" name="password" type="password" autocomplete="current-password" required>
       </div>
-      <div class="field" id="totp-group" style="display: none;">
-        <label for="admin-totp">Two-Factor Authentication Code</label>
-        <input id="admin-totp" name="code" type="text" inputmode="numeric" placeholder="6-digit code or recovery code">
-      </div>
       <p id="login-error" class="field-error" role="alert" style="margin: 0;"></p>
       <button class="btn" type="submit" id="login-btn" style="width: 100%;">Sign in</button>
     </form>
@@ -39,8 +35,6 @@
     const form = document.getElementById('login-form');
     const errBox = document.getElementById('login-error');
     const btn = document.getElementById('login-btn');
-    const totpGroup = document.getElementById('totp-group');
-    let requiresMfa = false;
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -49,42 +43,19 @@
 
       const email = form.email.value.trim();
       const password = form.password.value;
-      const code = form.code.value.trim();
 
       try {
-        if (!requiresMfa) {
-          const res = await fetch('/api/auth', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ action: 'login', email, password })
-          });
-          const data = await res.json();
-          if (!res.ok) {
-            errBox.textContent = data.error || 'Email or password is incorrect';
-            return;
-          }
-          if (data.requiresMfa) {
-            requiresMfa = true;
-            totpGroup.style.display = 'grid';
-            form.email.disabled = true;
-            form.password.disabled = true;
-            btn.textContent = 'Verify code';
-            form.code.focus();
-            return;
-          }
-        } else {
-          const res = await fetch('/api/auth', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ action: 'mfa_verify', code })
-          });
-          const data = await res.json();
-          if (!res.ok) {
-            errBox.textContent = data.error || 'Invalid authentication code';
-            return;
-          }
-          window.location.href = '/admin/';
+        const res = await fetch('/api/auth', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'login', email, password })
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          errBox.textContent = data.error || 'Email or password is incorrect';
+          return;
         }
+        window.location.href = '/admin/';
       } catch {
         errBox.textContent = 'Network error. Please try again.';
       } finally {

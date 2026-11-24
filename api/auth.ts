@@ -14,6 +14,31 @@ function parseCookies(cookieHeader = ''): Record<string, string> {
   return list;
 }
 
+async function readRequestBody(req: any): Promise<any> {
+  if (req.body && typeof req.body === 'object') return req.body;
+  if (typeof req.body === 'string') {
+    try { return JSON.parse(req.body); } catch { return {}; }
+  }
+
+  return new Promise((resolve) => {
+    const chunks: Buffer[] = [];
+    let length = 0;
+    req.on('data', (c: Buffer) => {
+      length += c.length;
+      if (length <= 1024 * 1024) chunks.push(c);
+    });
+    req.on('end', () => {
+      const raw = Buffer.concat(chunks).toString('utf-8');
+      try {
+        resolve(JSON.parse(raw || '{}'));
+      } catch {
+        resolve({});
+      }
+    });
+    req.on('error', () => resolve({}));
+  });
+}
+
 export default async function handler(req: any, res: any) {
   res.setHeader('Cache-Control', 'no-store');
   res.setHeader('Content-Type', 'application/json');
@@ -52,12 +77,7 @@ export default async function handler(req: any, res: any) {
 
   // POST handling
   if (req.method === 'POST') {
-    let body = req.body;
-    if (typeof body === 'string') {
-      try { body = JSON.parse(body); } catch { body = {}; }
-    }
-    body = body || {};
-
+    const body = await readRequestBody(req);
     const action = body.action || url.split('/').pop();
 
     // 1. LOGIN
@@ -109,7 +129,7 @@ export default async function handler(req: any, res: any) {
           email: userFound.email,
           name: userFound.name,
           role: userFound.role,
-          mfaVerified: false,
+          mfaVerified: true,
           mustChangePassword: !userFound.password_changed_at,
           csrfToken
         },
@@ -123,7 +143,7 @@ export default async function handler(req: any, res: any) {
       return res.end(JSON.stringify({
         ok: true,
         mustChangePassword: !userFound.password_changed_at,
-        requiresMfa: true,
+        requiresMfa: false,
         csrfToken
       }));
     }

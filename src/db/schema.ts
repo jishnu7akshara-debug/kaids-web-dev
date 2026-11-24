@@ -1,4 +1,4 @@
-import { pgTable, text, timestamp, integer, jsonb, pgEnum, uuid, index } from 'drizzle-orm/pg-core';
+import { pgTable, text, timestamp, integer, jsonb, pgEnum, uuid, index, boolean } from 'drizzle-orm/pg-core';
 import { sql } from 'drizzle-orm';
 
 // Enums
@@ -148,4 +148,26 @@ export const settings = pgTable('settings', {
   retention_months: integer('retention_months').notNull().default(24),
   turnstile_enabled: text('turnstile_enabled').notNull().default('false'),
   privacy_contact_block: text('privacy_contact_block').notNull()
+});
+
+// Clients Table
+export const clientStatusEnum = pgEnum('client_status', ['published', 'hidden']);
+
+export const clients = pgTable('clients', {
+  id: uuid('id').default(sql`gen_random_uuid()`).primaryKey(),
+  name: text('name').notNull(),
+  location: text('location'),
+  logo_key: text('logo_key'),
+  logo_w: integer('logo_w'),
+  logo_h: integer('logo_h'),
+  show_home_strip: boolean('show_home_strip').notNull().default(false),
+  show_logo_grid: boolean('show_logo_grid').notNull().default(false),
+  show_name_list: boolean('show_name_list').notNull().default(true),
+  sort_order: integer('sort_order').notNull().default(0),
+  status: clientStatusEnum('status').notNull().default('published'),
+  deleted_at: timestamp('deleted_at', { withTimezone: true }),
+  created_by: text('created_by'),
+  updated_by: text('updated_by'),
+  created_at: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updated_at: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow()
 });
