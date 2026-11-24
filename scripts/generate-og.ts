@@ -88,7 +88,7 @@ async function generateOg() {
     <div class="brand-name">Karnataka Industrial Documentation Services</div>
   </div>
   <div class="middle">
-    <h1 class="slogan">From land allotment to the final NOC,<br><span>we carry the file.</span></h1>
+    <h1 class="slogan">From land allotment to the final NOC,<br><span>in trusted hands.</span></h1>
   </div>
   <div class="bottom">
     <div class="details">Industrial documentation, statutory compliance and project execution · Bengaluru</div>
