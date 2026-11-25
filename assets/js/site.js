@@ -216,8 +216,13 @@
         }
       }
 
-      if (!currentGroup && groups.length > 0) {
-        currentGroup = groups[0].getAttribute('data-group');
+      if (!currentGroup) {
+        for (var j = 0; j < groups.length; j++) {
+          if (!groups[j].hidden) {
+            currentGroup = groups[j].getAttribute('data-group');
+            break;
+          }
+        }
       }
 
       if (currentGroup) {
@@ -366,5 +371,153 @@
         submit.textContent = submitLabel;
       });
     });
+  }
+
+  /* ---------- Partners: dialog ---------- */
+  var activeDialog = null;
+  var lastFocusedElement = null;
+  var isSwitching = false;
+
+  var openPartnerDialog = function (slug) {
+    var dialog = document.getElementById('dialog-' + slug);
+    if (!dialog) return;
+
+    if (activeDialog && activeDialog !== dialog) {
+      isSwitching = true;
+      var prevDialog = activeDialog;
+      if (prevDialog.hasAttribute('open')) {
+        if (typeof prevDialog.close === 'function') {
+          try { prevDialog.close(); } catch (err) {}
+        } else {
+          prevDialog.removeAttribute('open');
+        }
+      }
+      isSwitching = false;
+    }
+
+    if (!lastFocusedElement) {
+      lastFocusedElement = document.activeElement;
+    }
+
+    if (typeof dialog.showModal === 'function') {
+      try { dialog.showModal(); } catch (err) {}
+    } else {
+      dialog.setAttribute('open', '');
+    }
+
+    activeDialog = dialog;
+    document.documentElement.classList.add('dialog-open');
+
+    // Update URL hash
+    try {
+      history.replaceState(null, '', '#partner-' + slug);
+    } catch (e) {}
+
+    // Focus close button
+    var closeBtn = dialog.querySelector('[data-partner-close]');
+    if (closeBtn) closeBtn.focus();
+  };
+
+  var closePartnerDialog = function (dialog) {
+    if (!dialog) dialog = activeDialog;
+    if (!dialog) return;
+
+    if (dialog.hasAttribute('open')) {
+      if (typeof dialog.close === 'function') {
+        try { dialog.close(); } catch (err) {}
+      } else {
+        dialog.removeAttribute('open');
+      }
+    }
+
+    if (activeDialog === dialog) {
+      activeDialog = null;
+      document.documentElement.classList.remove('dialog-open');
+    }
+
+    // Clear hash
+    if (window.location.hash && window.location.hash.indexOf('#partner-') === 0) {
+      try {
+        history.replaceState(null, '', window.location.pathname + window.location.search);
+      } catch (e) {}
+    }
+
+    // Return focus
+    if (!isSwitching && lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
+      try { lastFocusedElement.focus(); } catch (err) {}
+      lastFocusedElement = null;
+    }
+  };
+
+  // Click delegates for opening, closing, and navigating dialog
+  document.addEventListener('click', function (e) {
+    var openTrigger = e.target.closest('[data-partner-open]');
+    if (openTrigger) {
+      e.preventDefault();
+      var slug = openTrigger.getAttribute('data-partner-open');
+      openPartnerDialog(slug);
+      return;
+    }
+
+    // Close button
+    var closeTrigger = e.target.closest('[data-partner-close]');
+    if (closeTrigger) {
+      e.preventDefault();
+      closePartnerDialog(closeTrigger.closest('dialog'));
+      return;
+    }
+
+    // Backdrop click
+    if (e.target.tagName === 'DIALOG' && e.target.classList.contains('partner-dialog')) {
+      var panel = e.target.querySelector('.dialog-panel');
+      if (panel) {
+        var rect = panel.getBoundingClientRect();
+        var isInPanel = (
+          rect.top <= e.clientY && e.clientY <= rect.bottom &&
+          rect.left <= e.clientX && e.clientX <= rect.right
+        );
+        if (!isInPanel) {
+          closePartnerDialog(e.target);
+        }
+      }
+      return;
+    }
+
+    // Prev / Next button
+    var prevTrigger = e.target.closest('[data-partner-prev]');
+    if (prevTrigger) {
+      e.preventDefault();
+      openPartnerDialog(prevTrigger.getAttribute('data-partner-prev'));
+      return;
+    }
+    var nextTrigger = e.target.closest('[data-partner-next]');
+    if (nextTrigger) {
+      e.preventDefault();
+      openPartnerDialog(nextTrigger.getAttribute('data-partner-next'));
+      return;
+    }
+
+    // Dialog CTA click: close dialog, smooth scroll to #contact
+    var ctaTrigger = e.target.closest('[data-dialog-cta]');
+    if (ctaTrigger) {
+      var d = ctaTrigger.closest('dialog');
+      closePartnerDialog(d);
+    }
+  });
+
+  // Handle ESC or native close event
+  document.addEventListener('close', function (e) {
+    if (isSwitching) return;
+    if (e.target && e.target.classList.contains('partner-dialog')) {
+      closePartnerDialog(e.target);
+    }
+  }, true);
+
+  // Deep-link check on page load
+  if (window.location.hash && window.location.hash.indexOf('#partner-') === 0) {
+    var hashSlug = window.location.hash.replace('#partner-', '');
+    setTimeout(function () {
+      openPartnerDialog(hashSlug);
+    }, 120);
   }
 })();

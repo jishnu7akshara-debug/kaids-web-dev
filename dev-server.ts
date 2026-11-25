@@ -18,6 +18,7 @@ const MIME_TYPES: Record<string, string> = {
   '.css': 'text/css; charset=utf-8',
   '.js': 'application/javascript; charset=utf-8',
   '.json': 'application/json; charset=utf-8',
+  '.avif': 'image/avif',
   '.webp': 'image/webp',
   '.png': 'image/png',
   '.jpg': 'image/jpeg',

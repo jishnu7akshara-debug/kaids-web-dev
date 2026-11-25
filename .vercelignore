@@ -7,3 +7,4 @@ test-results/
 *.spec.ts
 vitest.config.ts
 playwright.config.ts
+assets/img/partners/source/
