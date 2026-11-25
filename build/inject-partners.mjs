@@ -10,23 +10,18 @@ function escapeHtml(str = '') {
 }
 
 export function generateHomePartnersHtml(partners) {
-  const cardsHtml = partners.map((p, idx) => {
-    // Split last word of name for desktop line break
-    const nameParts = p.name.split(' ');
-    const lastName = nameParts.pop();
-    const firstName = nameParts.join(' ');
-
+  const cardsHtml = partners.map((p) => {
     return `          <!-- TODO-CONFIRM: Verify photo-to-name mapping for ${p.slug} -->
           <article class="partner-card" data-reveal>
             <figure class="photo partner-photo">
               <picture>
-                <source type="image/avif" srcset="${p.image.base}-480.avif 480w, ${p.image.base}-800.avif 800w, ${p.image.base}-1200.avif 1200w" sizes="(min-width: 62rem) 26vw, (min-width: 40rem) 42vw, 92vw">
-                <source type="image/webp" srcset="${p.image.base}-480.webp 480w, ${p.image.base}-800.webp 800w, ${p.image.base}-1200.webp 1200w" sizes="(min-width: 62rem) 26vw, (min-width: 40rem) 42vw, 92vw">
+                <source type="image/avif" srcset="${p.image.base}-480.avif 480w, ${p.image.base}-800.avif 800w, ${p.image.base}-1200.avif 1200w" sizes="(min-width: 62rem) 16rem, (min-width: 40rem) 14rem, 6.5rem">
+                <source type="image/webp" srcset="${p.image.base}-480.webp 480w, ${p.image.base}-800.webp 800w, ${p.image.base}-1200.webp 1200w" sizes="(min-width: 62rem) 16rem, (min-width: 40rem) 14rem, 6.5rem">
                 <img src="${p.image.base}-800.jpg" width="${p.image.width}" height="${p.image.height}" loading="lazy" decoding="async" alt="${escapeHtml(p.image.alt)}">
               </picture>
             </figure>
             <div class="partner-card-body">
-              <h3 class="partner-name">${escapeHtml(firstName)}<br class="name-break"> ${escapeHtml(lastName)}</h3>
+              <h3 class="partner-name">${escapeHtml(p.name)}</h3>
               <p class="note partner-role">${escapeHtml(p.title)}</p>
               <p class="partner-line">${escapeHtml(p.cardLine)}</p>
               <a href="partners.html#${p.slug}" class="btn-read-bio" data-partner-open="${p.slug}" aria-haspopup="dialog">
@@ -38,15 +33,20 @@ export function generateHomePartnersHtml(partners) {
   }).join('\n');
 
   return `    <section class="section" id="partners">
-      <div class="wrap">
-        <div class="partners-head" data-stagger>
-          <div class="accent-bar" aria-hidden="true"></div>
-          <h2 data-reveal="mask">The people behind your file.</h2>
-          <p class="lead" data-reveal>Three partners. One family firm. Every client file has a partner on it.</p>
-        </div>
+      <div class="wrap partners-wrap">
+        <div class="partners-layout">
+          <div class="partners-head" data-stagger>
+            <div class="accent-bar" aria-hidden="true"></div>
+            <h2 data-reveal="mask">The people behind your file.</h2>
+            <p class="lead" data-reveal>Three partners. One family firm. Every client file has a partner on it.</p>
+            <div class="partners-cta-inline" data-reveal>
+              <a class="btn btn-quiet" href="partners.html">Meet the partners</a>
+            </div>
+          </div>
 
-        <div class="partners-grid" data-stagger>
+          <div class="partners-grid" data-stagger>
 ${cardsHtml}
+          </div>
         </div>
 
         <div class="partners-foot" data-reveal>
@@ -139,7 +139,7 @@ export function generatePartnersPageHtml(partners) {
             </picture>
           </figure>
           <div class="profile-content" data-stagger>
-            <h2 class="display" data-reveal="mask">${escapeHtml(p.name)}</h2>
+            <h2 data-reveal="mask">${escapeHtml(p.name)}</h2>
             <p class="note partner-role" data-reveal>${escapeHtml(p.title)}</p>
             <div class="dialog-divider" data-reveal></div>
             <p class="lead" data-reveal>${escapeHtml(p.cardLine)}</p>
@@ -195,10 +195,10 @@ ${JSON.stringify(jsonLdGraph, null, 2)}
       <nav class="nav" id="nav" aria-label="Primary">
         <ul>
           <li><a href="about.html">About</a></li>
-          <li><a href="partners.html" aria-current="page">Partners</a></li>
           <li><a href="services.html">Services</a></li>
           <li><a href="process.html">Process</a></li>
           <li><a href="clients.html">Clients</a></li>
+          <li><a href="partners.html" aria-current="page">Partners</a></li>
           <li class="nav-contact-link"><a href="contact.html">Contact</a></li>
         </ul>
         <div class="nav-contact">
@@ -255,10 +255,10 @@ ${articlesHtml}
           <p class="note">Site</p>
           <p class="tb-links">
             <a href="about.html">About</a>
-            <a href="partners.html" aria-current="page">Partners</a>
             <a href="services.html">Services</a>
             <a href="process.html">Process</a>
             <a href="clients.html">Clients</a>
+            <a href="partners.html" aria-current="page">Partners</a>
             <a href="contact.html">Contact</a>
           </p>
         </div>
