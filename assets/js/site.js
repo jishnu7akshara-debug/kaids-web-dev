@@ -56,7 +56,7 @@
   var header = $('[data-header]');
   var mobileBar = $('[data-mobile-bar]');
   var hero = $('.hero');
-  var contact = $('#contact');
+  var contact = $('#contact, #contact-form');
   var lastY = window.scrollY;
   var ticking = false;
   var processSteps = $('[data-process]');
@@ -148,9 +148,20 @@
     });
   }
 
-  /* ---------- Marquees: duplicate the list, continuous loop ---------- */
-  $$('[data-marquee]').forEach(function (m) {
-    if (reduceMotion) return;
+  /* ---------- Marquees: smooth GPU loops, static swipeable ticker on touch/small screens ---------- */
+  var desktopMouseQuery = window.matchMedia('(hover: hover) and (pointer: fine) and (min-width: 62rem)');
+  var activeMarquees = [];
+
+  var recalcMarqueeDuration = function (m) {
+    var list = $('.marquee-group', m);
+    if (!list) return;
+    var pxPerSec = Number(m.getAttribute('data-speed')) || 60;
+    var w = list.scrollWidth;
+    if (w > 0) m.style.setProperty('--marquee-dur', (w / pxPerSec).toFixed(1) + 's');
+  };
+
+  var setupMarquee = function (m) {
+    if (reduceMotion || m.classList.contains('is-running')) return;
     var list = $('ul', m);
     if (!list) return;
     var track = document.createElement('div');
@@ -170,9 +181,77 @@
     copy.setAttribute('aria-hidden', 'true');
     $$('a, button', copy).forEach(function (el) { el.tabIndex = -1; });
     track.appendChild(copy);
-    var pxPerSec = Number(m.getAttribute('data-speed')) || 60;
-    m.style.setProperty('--marquee-dur', (list.scrollWidth / pxPerSec).toFixed(1) + 's');
+    recalcMarqueeDuration(m);
     m.classList.add('is-running');
+    if (activeMarquees.indexOf(m) === -1) activeMarquees.push(m);
+  };
+
+  var teardownMarquee = function (m) {
+    if (!m.classList.contains('is-running')) return;
+    var view = $('.marquee-view', m);
+    var list = $('.marquee-group', m);
+    if (list) {
+      // Remove any cloned padding items inside original list
+      $$('li[aria-hidden="true"]', list).forEach(function (li) { li.remove(); });
+      list.classList.remove('marquee-group');
+      m.appendChild(list);
+    }
+    if (view) view.remove();
+    m.classList.remove('is-running');
+    m.removeAttribute('data-offscreen');
+    m.style.removeProperty('--marquee-dur');
+  };
+
+  var syncTickerMode = function () {
+    $$('[data-marquee]').forEach(function (m) {
+      var isTicker = Boolean(m.closest('.ticker'));
+      if (reduceMotion) {
+        teardownMarquee(m);
+      } else if (isTicker) {
+        if (desktopMouseQuery.matches) setupMarquee(m);
+        else teardownMarquee(m);
+      } else {
+        setupMarquee(m);
+      }
+    });
+  };
+
+  syncTickerMode();
+  if (typeof desktopMouseQuery.addEventListener === 'function') {
+    desktopMouseQuery.addEventListener('change', syncTickerMode);
+  } else if (typeof desktopMouseQuery.addListener === 'function') {
+    desktopMouseQuery.addListener(syncTickerMode);
+  }
+
+  // Pause off-screen marquees to save battery and prevent iOS frame drops
+  if ('IntersectionObserver' in window && !reduceMotion) {
+    var marqueeObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.target.classList.contains('is-running')) {
+          en.target.setAttribute('data-offscreen', en.isIntersecting ? 'false' : 'true');
+        }
+      });
+    }, { rootMargin: '120px 0px' });
+    $$('[data-marquee]').forEach(function (m) { marqueeObserver.observe(m); });
+  }
+
+  // Recalculate durations after web font loads and on debounced resize
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () {
+      activeMarquees.forEach(recalcMarqueeDuration);
+    });
+  }
+  var resizeTimer = null;
+  window.addEventListener('resize', function () {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function () {
+      activeMarquees.forEach(recalcMarqueeDuration);
+    }, 150);
+  });
+
+  /* ---------- Footer copyright year ---------- */
+  $$('[data-year]').forEach(function (el) {
+    el.textContent = String(new Date().getFullYear());
   });
 
   /* ---------- Services: filter by group, photo follows the group in view ---------- */

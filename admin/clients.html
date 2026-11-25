@@ -35,10 +35,10 @@
     <div class="admin-content">
       <div class="admin-toolbar">
         <div class="admin-toolbar-group">
-          <div class="field" style="width: 18rem;">
+          <div class="field admin-field-search">
             <input type="search" id="client-search" placeholder="Search by company or location...">
           </div>
-          <div class="field" style="width: 10rem;">
+          <div class="field admin-field-status">
             <select id="status-filter">
               <option value="all">All Clients</option>
               <option value="published">Published</option>
@@ -56,12 +56,12 @@
         <table class="admin-table">
           <thead>
             <tr>
-              <th scope="col" style="width: 4.5rem;">Order</th>
-              <th scope="col" style="width: 5.5rem;">Logo</th>
+              <th scope="col" class="col-order">Order</th>
+              <th scope="col" class="col-logo">Logo</th>
               <th scope="col">Name &amp; Location</th>
               <th scope="col">Placements</th>
-              <th scope="col" style="width: 6.5rem;">Status</th>
-              <th scope="col" style="width: 11rem;">Actions</th>
+              <th scope="col" class="col-status">Status</th>
+              <th scope="col" class="col-actions">Actions</th>
             </tr>
           </thead>
           <tbody id="client-table-body">
@@ -76,7 +76,7 @@
   <div class="admin-modal-overlay" id="client-drawer-overlay" aria-hidden="true">
     <div class="admin-drawer" role="dialog" aria-labelledby="drawer-title">
       <div class="admin-drawer-head">
-        <h2 id="drawer-title" style="font-size: 1.15rem; font-weight: 600;">Add Client</h2>
+        <h2 id="drawer-title">Add Client</h2>
         <button type="button" class="btn btn-quiet btn-sm" id="btn-close-drawer">&times;</button>
       </div>
       <form id="client-form" class="admin-drawer-body">
@@ -85,7 +85,7 @@
         <div class="field">
           <label for="field-name">Company Name *</label>
           <input type="text" id="field-name" required placeholder="e.g. Acme Precision Products">
-          <p class="field-error" id="name-error" style="display:none; color: var(--alert); font-size: .85rem; margin-top: .25rem;"></p>
+          <p class="field-error admin-field-error is-hidden" id="name-error"></p>
         </div>
 
         <div class="field">
@@ -96,15 +96,15 @@
         <div class="field">
           <label>Client Logo (optional)</label>
           <div class="dropzone-box" id="logo-dropzone">
-            <input type="file" id="logo-file-input" accept="image/png,image/webp,image/jpeg,image/svg+xml" style="display: none;">
+            <input type="file" id="logo-file-input" class="is-hidden" accept="image/png,image/webp,image/jpeg,image/svg+xml">
             <div id="dropzone-empty">
-              <p style="font-weight: 540; margin-bottom: .25rem;">Drag &amp; drop logo or click to browse</p>
+              <p class="dropzone-title">Drag &amp; drop logo or click to browse</p>
               <p class="note">PNG, WebP, SVG, JPEG up to 2 MB</p>
             </div>
-            <div id="dropzone-preview" style="display: none;">
-              <img id="logo-preview-img" src="" alt="Preview" style="max-height: 4rem; max-width: 100%; object-fit: contain; margin-bottom: .5rem;">
+            <div id="dropzone-preview" class="is-hidden">
+              <img id="logo-preview-img" src="" alt="Preview" class="logo-preview-img">
               <p class="note" id="logo-dimensions-info"></p>
-              <button type="button" class="btn btn-quiet btn-sm" id="btn-remove-logo" style="margin-top: .5rem;">Remove Logo</button>
+              <button type="button" class="btn btn-quiet btn-sm btn-remove-logo" id="btn-remove-logo">Remove Logo</button>
             </div>
           </div>
           <input type="hidden" id="field-logo-key" value="">
@@ -113,8 +113,8 @@
         </div>
 
         <div class="field">
-          <label style="margin-bottom: .5rem;">Site Placements</label>
-          <div style="display: flex; flex-direction: column; gap: .5rem;">
+          <label class="admin-placements-label">Site Placements</label>
+          <div class="admin-placements-list">
             <label class="form-check">
               <input type="checkbox" id="check-home-strip">
               <span>Home page marquee strip (Featured logos)</span>

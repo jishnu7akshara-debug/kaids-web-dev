@@ -22,7 +22,6 @@ export function generateHomePartnersHtml(partners) {
             </figure>
             <div class="partner-card-body">
               <h3 class="partner-name">${escapeHtml(p.name)}</h3>
-              <p class="note partner-role">${escapeHtml(p.title)}</p>
               <p class="partner-line">${escapeHtml(p.cardLine)}</p>
               <a href="partners.html#${p.slug}" class="btn-read-bio" data-partner-open="${p.slug}" aria-haspopup="dialog">
                 <span>Read bio</span>
@@ -78,7 +77,6 @@ export function generateDialogsHtml(partners) {
           </figure>
           <div class="dialog-body">
             <h2 id="dialog-title-${p.slug}">${escapeHtml(p.name)}</h2>
-            <p class="note partner-role">${escapeHtml(p.title)}</p>
             <div class="dialog-divider"></div>
             <p class="dialog-bio">${escapeHtml(p.bio)}</p>
             <div class="dialog-focus">
@@ -108,7 +106,6 @@ export function generatePartnersPageHtml(partners) {
       "@type": "Person",
       "@id": `https://www.kaids.in/partners#${p.slug}`,
       "name": p.name,
-      "jobTitle": p.title,
       "description": p.cardLine,
       "image": `https://www.kaids.in/${p.image.base}-800.webp`,
       "worksFor": {
@@ -140,7 +137,6 @@ export function generatePartnersPageHtml(partners) {
           </figure>
           <div class="profile-content" data-stagger>
             <h2 data-reveal="mask">${escapeHtml(p.name)}</h2>
-            <p class="note partner-role" data-reveal>${escapeHtml(p.title)}</p>
             <div class="dialog-divider" data-reveal></div>
             <p class="lead" data-reveal>${escapeHtml(p.cardLine)}</p>
             <p class="profile-bio" data-reveal>${escapeHtml(p.bio)}</p>
@@ -159,10 +155,10 @@ ${focusAreasList}
   }).join('\n\n');
 
   return `<!DOCTYPE html>
-<html lang="en-IN">
+<html lang="en-IN" class="no-js">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Partners | KAIDS</title>
   <meta name="description" content="Meet the partners of Karnataka Industrial Documentation Services: Gurunath, Tejas and Ajay Vernekar.">
   <link rel="canonical" href="https://www.kaids.in/partners">
@@ -186,7 +182,7 @@ ${JSON.stringify(jsonLdGraph, null, 2)}
   <a class="skip" href="#main">Skip to content</a>
 
   <header class="site-header" data-header>
-    <div class="wrap header-inner">
+    <div class="wrap header-row">
       <a class="brand" href="/" aria-label="KAIDS home">
         <img src="assets/img/kaids-seal.webp" width="320" height="320" alt="">
         <span class="brand-name">KAIDS</span>
@@ -267,9 +263,9 @@ ${articlesHtml}
           <p class="tb-links"><a href="privacy.html">Privacy Notice</a><a href="terms.html">Terms of Use</a><a href="cookies.html">Cookie Policy</a></p>
         </div>
       </div>
-      <div class="site-foot-bar">
-        <p class="note">&copy; 2026 Karnataka Industrial Documentation Services. All rights reserved.</p>
-        <p class="note">Liaison and documentation practice operating independently across Karnataka.</p>
+      <div class="footer-legal note">
+        <p>&copy; <span data-year>2026</span> Verna Developers. All rights reserved.</p>
+        <p>Developed by <a href="https://www.digifootprint.in/" target="_blank" rel="noopener">Digital Footprint<span class="visually-hidden"> (opens in a new tab)</span></a></p>
       </div>
     </div>
   </footer>

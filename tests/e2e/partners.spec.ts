@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('Partners Section & Bio Pop-up Dialogs', () => {
-  test('Home page displays Partners section with 3 cards', async ({ page }) => {
+  test('Home page displays Partners section with 3 cards and no role lines', async ({ page }) => {
     await page.goto('/');
 
     const section = page.locator('#partners');
@@ -9,17 +9,29 @@ test.describe('Partners Section & Bio Pop-up Dialogs', () => {
 
     const cards = section.locator('.partner-card');
     await expect(cards).toHaveCount(3);
+    await expect(section.locator('.partner-role')).toHaveCount(0);
 
     // Verify first partner card content
     const firstCard = cards.first();
-    await expect(firstCard.locator('.partner-name')).toContainText('Gurunath D');
-    await expect(firstCard.locator('.partner-role')).toContainText('Founder and managing partner');
+    await expect(firstCard.locator('.partner-name')).toContainText('Gurunath D Vernekar');
     await expect(firstCard.locator('.partner-line')).toContainText("Has worked with Bengaluru's land and industrial authorities since 2000.");
 
     // Check images
     const img = firstCard.locator('img');
     await expect(img).toBeVisible();
-    await expect(img).toHaveAttribute('alt', /Portrait of Gurunath D Vernekar/);
+    await expect(img).toHaveAttribute('alt', 'Portrait of Gurunath D Vernekar');
+  });
+
+  test('Services ticker is static on mobile/touch and animated on desktop', async ({ page, isMobile }) => {
+    await page.goto('/');
+    const tickerMarquee = page.locator('.ticker .marquee');
+    await expect(tickerMarquee).toBeVisible();
+
+    if (isMobile) {
+      await expect(tickerMarquee).not.toHaveClass(/is-running/);
+    } else {
+      await expect(tickerMarquee).toHaveClass(/is-running/);
+    }
   });
 
   test('Clicking Read bio opens the native modal dialog and ESC closes it', async ({ page }) => {
@@ -31,6 +43,7 @@ test.describe('Partners Section & Bio Pop-up Dialogs', () => {
     const dialog = page.locator('#dialog-partner-1');
     await expect(dialog).toBeVisible();
     await expect(dialog).toHaveAttribute('open', '');
+    await expect(dialog.locator('.partner-role')).toHaveCount(0);
 
     // Focus trapped or moved inside dialog
     const closeBtn = dialog.locator('.dialog-close');
@@ -65,7 +78,7 @@ test.describe('Partners Section & Bio Pop-up Dialogs', () => {
   });
 
   test('Clicking dialog backdrop closes dialog on desktop', async ({ page, isMobile }) => {
-    test.skip(isMobile, 'Mobile modal is full-screen 100vh with no exposed backdrop');
+    test.skip(isMobile, 'Mobile modal is full-screen 100svh with no exposed backdrop');
 
     await page.goto('/');
 
@@ -116,36 +129,39 @@ test.describe('Partners Section & Bio Pop-up Dialogs', () => {
     await expect(dialog.locator('#dialog-title-partner-2')).toHaveText('Tejas G Vernekar');
   });
 
-  test('Nav and footer contain Partners link on all primary pages', async ({ page, isMobile }) => {
-    // Check Home page nav and footer
+  test('Nav and footer contain Partners link and Verna Developers / Digital Footprint credit', async ({ page, isMobile }) => {
     await page.goto('/');
 
     if (isMobile) {
-      // Open drawer on mobile
       await page.locator('[data-menu-toggle]').click();
     }
-    const homeNavPartner = page.locator('#nav a[href="#partners"]');
-    await expect(homeNavPartner).toBeVisible();
+    await expect(page.locator('#nav a[href="#partners"]')).toBeVisible();
+    await expect(page.locator('.site-footer a[href="partners.html"]')).toBeVisible();
 
-    const homeFooterPartner = page.locator('.site-footer a[href="partners.html"]');
-    await expect(homeFooterPartner).toBeVisible();
+    const footerLegal = page.locator('.footer-legal');
+    await expect(footerLegal).toContainText('© 2026 Verna Developers. All rights reserved.');
+    const creditLink = footerLegal.locator('a[href="https://www.digifootprint.in/"]');
+    await expect(creditLink).toHaveAttribute('target', '_blank');
+    await expect(creditLink).toHaveAttribute('rel', 'noopener');
 
     // Check About page nav and footer
     await page.goto('/about.html');
     if (isMobile) {
       await page.locator('[data-menu-toggle]').click();
     }
-    const aboutNavPartner = page.locator('#nav a[href="partners.html"]');
-    await expect(aboutNavPartner).toBeVisible();
-
-    const aboutFooterPartner = page.locator('.site-footer a[href="partners.html"]');
-    await expect(aboutFooterPartner).toBeVisible();
+    await expect(page.locator('#nav a[href="partners.html"]')).toBeVisible();
+    await expect(page.locator('.site-footer a[href="partners.html"]')).toBeVisible();
   });
 });
 
 test.describe('Dedicated /partners Page', () => {
-  test('Renders 3 full partner profiles and in-page navigation', async ({ page }) => {
+  test('Renders 3 full partner profiles without role lines and with valid JSON-LD', async ({ page }) => {
     await page.goto('/partners.html');
+
+    // Header row stays single-line (~72px)
+    const headerBox = await page.locator('.site-header .header-row').boundingBox();
+    expect(headerBox).toBeTruthy();
+    expect(headerBox!.height).toBeLessThanOrEqual(80);
 
     // Nav item exists and has aria-current="page"
     const navLink = page.locator('#nav a[href="partners.html"]');
@@ -158,32 +174,30 @@ test.describe('Dedicated /partners Page', () => {
     await expect(inpageNav.locator('a[href="#partner-2"]')).toContainText('Tejas');
     await expect(inpageNav.locator('a[href="#partner-3"]')).toContainText('Ajay');
 
-    // Check 3 partner profile articles
+    // Check 3 partner profile articles, zero role lines
     const profiles = page.locator('.partner-profile');
     await expect(profiles).toHaveCount(3);
+    await expect(page.locator('.partner-role')).toHaveCount(0);
 
-    // Profile 1
     const p1 = page.locator('#partner-1');
     await expect(p1.locator('h2')).toHaveText('Gurunath D Vernekar');
-    await expect(p1.locator('.partner-role')).toHaveText('Founder and managing partner');
     await expect(p1.locator('.profile-bio')).toContainText('Gurunath founded Verna Developers in 2000');
     await expect(p1.locator('.focus-list li')).toHaveCount(3);
 
-    // Profile 2
     const p2 = page.locator('#partner-2');
     await expect(p2.locator('h2')).toHaveText('Tejas G Vernekar');
-    await expect(p2.locator('.partner-role')).toHaveText('Co-founder, legal and compliance');
 
-    // Profile 3
     const p3 = page.locator('#partner-3');
     await expect(p3.locator('h2')).toHaveText('Ajay G Vernekar');
-    await expect(p3.locator('.partner-role')).toHaveText('Partner, finance and growth');
 
-    // Check JSON-LD schema
+    // Check JSON-LD schema has no jobTitle
     const schemaScript = page.locator('script[type="application/ld+json"]');
     const jsonText = await schemaScript.textContent();
     expect(jsonText).toBeTruthy();
     const parsed = JSON.parse(jsonText!);
     expect(parsed['@graph']).toHaveLength(3);
+    for (const person of parsed['@graph']) {
+      expect(person.jobTitle).toBeUndefined();
+    }
   });
 });

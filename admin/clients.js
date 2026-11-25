@@ -84,7 +84,7 @@ async function loadClients() {
     renderTable(allClients, isTrash);
   } catch (err) {
     console.error('Error fetching clients:', err);
-    tableBody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--alert); padding: 2rem;">Error loading clients.</td></tr>`;
+    tableBody.innerHTML = `<tr><td colspan="6" class="admin-table-msg admin-table-msg--error">Error loading clients.</td></tr>`;
   }
 }
 
@@ -100,7 +100,7 @@ function renderTable(clients, isTrash) {
   totalCountSpan.textContent = `${clients.length} client${clients.length === 1 ? '' : 's'} listed`;
 
   if (clients.length === 0) {
-    tableBody.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 2.5rem; color: var(--graphite);">No clients found matching the filter criteria.</td></tr>`;
+    tableBody.innerHTML = `<tr><td colspan="6" class="admin-table-msg">No clients found matching the filter criteria.</td></tr>`;
     return;
   }
 
@@ -141,7 +141,7 @@ function renderTable(clients, isTrash) {
       `;
     } else {
       actionsHtml = `
-        <div style="display: flex; gap: .35rem;">
+        <div class="admin-row-actions">
           <button type="button" class="btn btn-quiet btn-sm" data-action="edit" data-id="${client.id}">Edit</button>
           <button type="button" class="btn btn-quiet btn-sm" data-action="toggle-status" data-id="${client.id}" data-current="${client.status}">${client.status === 'published' ? 'Hide' : 'Show'}</button>
           <button type="button" class="btn btn-quiet btn-sm btn-danger" data-action="delete" data-id="${client.id}">Delete</button>
@@ -154,7 +154,7 @@ function renderTable(clients, isTrash) {
         <td>${orderControls}</td>
         <td>${logoHtml}</td>
         <td>
-          <div style="font-weight: 560; color: var(--ink);">${escapeHtml(client.name)}</div>
+          <div class="admin-client-name">${escapeHtml(client.name)}</div>
           ${client.location ? `<div class="note">${escapeHtml(client.location)}</div>` : ''}
         </td>
         <td>${placementChips}</td>

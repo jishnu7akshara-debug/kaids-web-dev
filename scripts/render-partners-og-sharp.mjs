@@ -62,19 +62,16 @@ async function renderOgWithSharp() {
 
     <!-- Card Backgrounds & Captions -->
     <!-- Card 1 -->
-    <rect x="${x1}" y="${topY}" width="${pWidth}" height="${pHeight + 65}" rx="3" class="card-bg" />
-    <text x="${x1 + 12}" y="${topY + pHeight + 24}" class="name">Gurunath D Vernekar</text>
-    <text x="${x1 + 12}" y="${topY + pHeight + 44}" class="role">Founder &amp; Managing Partner</text>
+    <rect x="${x1}" y="${topY}" width="${pWidth}" height="${pHeight + 48}" rx="3" class="card-bg" />
+    <text x="${x1 + 12}" y="${topY + pHeight + 29}" class="name">Gurunath D Vernekar</text>
 
     <!-- Card 2 -->
-    <rect x="${x2}" y="${topY}" width="${pWidth}" height="${pHeight + 65}" rx="3" class="card-bg" />
-    <text x="${x2 + 12}" y="${topY + pHeight + 24}" class="name">Tejas G Vernekar</text>
-    <text x="${x2 + 12}" y="${topY + pHeight + 44}" class="role">Legal &amp; Compliance</text>
+    <rect x="${x2}" y="${topY}" width="${pWidth}" height="${pHeight + 48}" rx="3" class="card-bg" />
+    <text x="${x2 + 12}" y="${topY + pHeight + 29}" class="name">Tejas G Vernekar</text>
 
     <!-- Card 3 -->
-    <rect x="${x3}" y="${topY}" width="${pWidth}" height="${pHeight + 65}" rx="3" class="card-bg" />
-    <text x="${x3 + 12}" y="${topY + pHeight + 24}" class="name">Ajay G Vernekar</text>
-    <text x="${x3 + 12}" y="${topY + pHeight + 44}" class="role">Finance &amp; Growth</text>
+    <rect x="${x3}" y="${topY}" width="${pWidth}" height="${pHeight + 48}" rx="3" class="card-bg" />
+    <text x="${x3 + 12}" y="${topY + pHeight + 29}" class="name">Ajay G Vernekar</text>
   </svg>
   `;
 

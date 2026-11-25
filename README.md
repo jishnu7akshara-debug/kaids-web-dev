@@ -58,3 +58,10 @@ Then open: [http://localhost:8085](http://localhost:8085)
 
 ### 2. Netlify / Vercel / Cloudflare Pages (Free & Instant)
 - Simply drag-and-drop this folder into **Netlify Drop** ([app.netlify.com/drop](https://app.netlify.com/drop)), or connect your repository on Vercel or Cloudflare Pages with publish directory set to `.`.
+
+## Content Security Policy (CSP) & Styling Rule
+
+- No inline styles (`style="..."` or `<style>` blocks in HTML, or `setAttribute('style', ...)` / `.style.cssText` / `style=` strings in JS).
+- Use classes and tokens in `assets/css/site.css` (and `admin/admin.css` for the admin portal).
+- For dynamic values in JS, use `element.style.setProperty('--var', value)` or CSSOM properties (`element.style.transform`).
+- `npm run check:csp` enforces this rule across all deployable files.

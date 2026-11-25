@@ -10,7 +10,12 @@ if (!fs.existsSync(partnersPath)) {
 }
 
 const partners = JSON.parse(fs.readFileSync(partnersPath, 'utf-8'));
-const requiredFields = ['slug', 'name', 'title', 'cardLine', 'bio', 'image'];
+const requiredFields = ['slug', 'name', 'cardLine', 'bio', 'image'];
+const forbiddenTitles = [
+  'Founder and managing partner',
+  'Co-founder, legal and compliance',
+  'Partner, finance and growth'
+];
 let hasErrors = false;
 
 for (const p of partners) {
@@ -19,6 +24,10 @@ for (const p of partners) {
       console.error(`[ERROR] Partner ${p.slug || p.name || 'unknown'} missing required field: ${field}`);
       hasErrors = true;
     }
+  }
+  if (p.title) {
+    console.error(`[ERROR] Partner ${p.slug} still has title field`);
+    hasErrors = true;
   }
 
   // Check referenced image files
@@ -63,33 +72,36 @@ if (!fs.existsSync(sitemapPath)) {
   }
 }
 
-// Check names in index.html and partners.html if they exist
+// Check names, absence of old titles, and footer credit in index.html and partners.html
 const indexHtmlPath = path.join(rootDir, 'index.html');
 const partnersHtmlPath = path.join(rootDir, 'partners.html');
 
-if (fs.existsSync(indexHtmlPath)) {
-  const indexHtml = fs.readFileSync(indexHtmlPath, 'utf-8');
-  if (indexHtml.includes('id="partners"')) {
-    for (const p of partners) {
-      if (!indexHtml.includes(p.name)) {
-        console.error(`[ERROR] Partner name "${p.name}" not found in index.html`);
-        hasErrors = true;
-      }
+for (const [label, filePath] of [['index.html', indexHtmlPath], ['partners.html', partnersHtmlPath]]) {
+  if (!fs.existsSync(filePath)) continue;
+  const html = fs.readFileSync(filePath, 'utf-8');
+  for (const p of partners) {
+    if (!html.includes(p.name)) {
+      console.error(`[ERROR] Partner name "${p.name}" not found in ${label}`);
+      hasErrors = true;
     }
   }
-  if (!indexHtml.includes('https://www.kaids.in/#org')) {
-    console.error('[ERROR] index.html schema missing @id https://www.kaids.in/#org');
+  for (const oldTitle of forbiddenTitles) {
+    if (html.includes(oldTitle)) {
+      console.error(`[ERROR] Old title "${oldTitle}" still present in ${label}`);
+      hasErrors = true;
+    }
+  }
+  if (!html.includes('Verna Developers') || !html.includes('https://www.digifootprint.in/')) {
+    console.error(`[ERROR] Footer copyright/credit missing in ${label}`);
     hasErrors = true;
   }
 }
 
-if (fs.existsSync(partnersHtmlPath)) {
-  const partnersHtml = fs.readFileSync(partnersHtmlPath, 'utf-8');
-  for (const p of partners) {
-    if (!partnersHtml.includes(p.name)) {
-      console.error(`[ERROR] Partner name "${p.name}" not found in partners.html`);
-      hasErrors = true;
-    }
+if (fs.existsSync(indexHtmlPath)) {
+  const indexHtml = fs.readFileSync(indexHtmlPath, 'utf-8');
+  if (!indexHtml.includes('https://www.kaids.in/#org')) {
+    console.error('[ERROR] index.html schema missing @id https://www.kaids.in/#org');
+    hasErrors = true;
   }
 }
 
