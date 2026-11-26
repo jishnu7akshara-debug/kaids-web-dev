@@ -148,8 +148,7 @@
     });
   }
 
-  /* ---------- Marquees: smooth GPU loops, static swipeable ticker on touch/small screens ---------- */
-  var desktopMouseQuery = window.matchMedia('(hover: hover) and (pointer: fine) and (min-width: 62rem)');
+  /* ---------- Marquees: smooth GPU loops on all devices (paused off-screen & reduced motion) ---------- */
   var activeMarquees = [];
 
   var recalcMarqueeDuration = function (m) {
@@ -186,41 +185,8 @@
     if (activeMarquees.indexOf(m) === -1) activeMarquees.push(m);
   };
 
-  var teardownMarquee = function (m) {
-    if (!m.classList.contains('is-running')) return;
-    var view = $('.marquee-view', m);
-    var list = $('.marquee-group', m);
-    if (list) {
-      // Remove any cloned padding items inside original list
-      $$('li[aria-hidden="true"]', list).forEach(function (li) { li.remove(); });
-      list.classList.remove('marquee-group');
-      m.appendChild(list);
-    }
-    if (view) view.remove();
-    m.classList.remove('is-running');
-    m.removeAttribute('data-offscreen');
-    m.style.removeProperty('--marquee-dur');
-  };
-
-  var syncTickerMode = function () {
-    $$('[data-marquee]').forEach(function (m) {
-      var isTicker = Boolean(m.closest('.ticker'));
-      if (reduceMotion) {
-        teardownMarquee(m);
-      } else if (isTicker) {
-        if (desktopMouseQuery.matches) setupMarquee(m);
-        else teardownMarquee(m);
-      } else {
-        setupMarquee(m);
-      }
-    });
-  };
-
-  syncTickerMode();
-  if (typeof desktopMouseQuery.addEventListener === 'function') {
-    desktopMouseQuery.addEventListener('change', syncTickerMode);
-  } else if (typeof desktopMouseQuery.addListener === 'function') {
-    desktopMouseQuery.addListener(syncTickerMode);
+  if (!reduceMotion) {
+    $$('[data-marquee]').forEach(setupMarquee);
   }
 
   // Pause off-screen marquees to save battery and prevent iOS frame drops

@@ -22,16 +22,11 @@ test.describe('Partners Section & Bio Pop-up Dialogs', () => {
     await expect(img).toHaveAttribute('alt', 'Portrait of Gurunath D Vernekar');
   });
 
-  test('Services ticker is static on mobile/touch and animated on desktop', async ({ page, isMobile }) => {
+  test('Services ticker animates smoothly on both desktop and mobile', async ({ page }) => {
     await page.goto('/');
     const tickerMarquee = page.locator('.ticker .marquee');
     await expect(tickerMarquee).toBeVisible();
-
-    if (isMobile) {
-      await expect(tickerMarquee).not.toHaveClass(/is-running/);
-    } else {
-      await expect(tickerMarquee).toHaveClass(/is-running/);
-    }
+    await expect(tickerMarquee).toHaveClass(/is-running/);
   });
 
   test('Clicking Read bio opens the native modal dialog and ESC closes it', async ({ page }) => {
